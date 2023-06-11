@@ -21,7 +21,7 @@
     <!-- Exercice dropdown -->
     <div>
       <!-- Find exercise form -->
-      <form method="post" action="{% url 'generateur_exercice' %}">
+      <form action="{% url 'generateur_exercice' %}">
         {% csrf_token %}
         <!-- Dropdown menus for exercise properties -->
         <label for="longueur">Longueur:</label>
@@ -35,7 +35,7 @@
         <select name="difficulte" id="difficulte">
           <option value=0>Easy</option>
           <option value=1>Medium</option>
-          <option value=3>Hard</option>
+          <option value=2>Hard</option>
         </select>
 
         <label for="cours">cours:</label>
@@ -58,7 +58,7 @@
           <option value="test1">test</option
           <option value="test2">test</option>
         </select>
-        <button type="submit">Find Exercise</button>
+        <button type="submit" >Find Exercise</button>
       </form>
       {% if exercise != None%}
       <p>{{exercise.text}}</p>
@@ -66,6 +66,56 @@
       <p>exercise not found</p>
       {% endif %}
     </div>
+
+    <!-- Correction dropdown -->
+    <div>
+      <!-- Find correction form -->
+      <form action="{% url 'generateur_exercice' %}">
+        {% csrf_token %}
+        <input type="hidden" name="exercise-form">
+        <!-- Dropdown menus for correction properties -->
+        <label for="nombre-de-methode">N° de methode:</label>
+        <select name="nombre-de-methode" id="nombre-de-methode">
+          <option value="False">un</option>
+          <option value="True">multiple</option>
+        </select>
+
+        <label for="commentaire">Commentaire:</label>
+        <select name="commentaire" id="commentaire">
+          <option value=0>minimum</option>
+          <option value=1>moyen</option>
+          <option value=2>explicatif</option>
+        </select>
+
+        <label for="cours">cours:</label>
+        <select name="cours" id="cours">
+          <option value="Cours1">cours 1</option>
+          <option value="test1">test</option>
+          <option value="test2">test</option>
+        </select>
+
+        <label for="theoreme">Theoreme</label>
+        <select name="theoreme" id="theoreme">
+          <option value="Flase">non</option>
+          <option value=True>oui</option>
+
+        </select>
+        
+        <button type="submit">Find Correction</button>
+      </form>
+      {% if correction != None%}
+      <p>{{correction.text}}</p>
+      {%else%}
+      <p>correction not found</p>
+      {% endif %}
+    </div>
+    {% if exercise %}
+    <p>{{ exercise.text }}</p>
+    {% elif correction %}
+    <p>{{ correction.text }}</p>
+    {% else %}
+    <p>No result found</p>
+    {% endif %}
   </body>
 </html>
 {% endblock %}

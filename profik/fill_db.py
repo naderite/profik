@@ -8,7 +8,7 @@ django.setup()
 from profikapp.models import Exercice, Correction
 
 # Create examples for Exercice
-exercice_examples = []
+"""exercice_examples = []
 for i in range(100):
     exercice = Exercice(
         cours='Mathematics',
@@ -23,7 +23,7 @@ for i in range(100):
 
 # Save the Exercice examples in a batch
 Exercice.objects.bulk_create(exercice_examples)
-
+"""
 # Create examples for Correction
 correction_examples = []
 for i in range(1, 301):

@@ -13,7 +13,7 @@ class Exercice(models.Model):
     ]
     text = models.CharField(max_length=1024, default='default_value_here')
     cours = models.CharField(max_length=512)
-    partie_de_cours = models.CharField(max_length=512)
+    partie_cours = models.CharField(max_length=512)
     longueur = models.PositiveSmallIntegerField(choices=LONGUEUR_CHOICES)
     but = models.CharField(max_length=512)
     ex_id = models.IntegerField()
@@ -32,3 +32,4 @@ class Correction(models.Model):
     nombre_de_methode = models.BooleanField()
     commentaires = models.PositiveSmallIntegerField(choices=COMMENTAIRES_CHOICES)
     theoreme = models.BooleanField()
+    cours = models.CharField(max_length=512, default="Cours1")
