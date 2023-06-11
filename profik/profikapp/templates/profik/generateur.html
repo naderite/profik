@@ -1,0 +1,71 @@
+{% extends "profik/base.html" %} {% block content%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dropdown Menu</title>
+  </head>
+  <style>
+    select {
+      width: 100px;
+      margin: 10px;
+    }
+    p {
+      height: 100px;
+      width: 100px;
+      border: 3px solid red;
+    }
+  </style>
+  <body>
+    <h1>Dropdown Menu</h1>
+
+    <!-- Exercice dropdown -->
+    <div>
+      <!-- Find exercise form -->
+      <form method="post" action="{% url 'generateur_exercice' %}">
+        {% csrf_token %}
+        <!-- Dropdown menus for exercise properties -->
+        <label for="longueur">Longueur:</label>
+        <select name="longueur" id="longueur">
+          <option value=0>Short</option>
+          <option value=1>Medium</option>
+          <option value=2>Long</option>
+        </select>
+
+        <label for="difficulte">Difficulte:</label>
+        <select name="difficulte" id="difficulte">
+          <option value=0>Easy</option>
+          <option value=1>Medium</option>
+          <option value=3>Hard</option>
+        </select>
+
+        <label for="cours">cours:</label>
+        <select name="cours" id="cours">
+          <option value="Mathematics">Mathematics</option>
+          <option value="test1">test</option>
+          <option value="test2">test</option>
+        </select>
+
+        <label for="partie_cours">Partie Cours:</label>
+        <select name="partie_cours" id="partie_cours">
+          <option value="Algebra">Algebra</option>
+          <option value="test1">test</option>
+          <option value="test2">test</option>
+        </select>
+        </select>
+        <label for="but">But:</label>
+        <select name="but" id="but">
+          <option value="Solve equations">Solve equations</option>
+          <option value="test1">test</option
+          <option value="test2">test</option>
+        </select>
+        <button type="submit">Find Exercise</button>
+      </form>
+      {% if exercise != None%}
+      <p>{{exercise.text}}</p>
+      {%else%}
+      <p>exercise not found</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
+{% endblock %}
