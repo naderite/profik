@@ -1,6 +1,6 @@
 from django.db import models
 
-class Exercice(models.Model):
+class Exercise(models.Model):
     LONGUEUR_CHOICES = [
         (0, 'court'),
         (1, 'long'),
@@ -11,12 +11,12 @@ class Exercice(models.Model):
         (1, 'moyen'),
         (2, 'deficile'),
     ]
+    niveau = models.CharField(max_length=512, default='bac')
     text = models.CharField(max_length=1024, default='default_value_here')
     cours = models.CharField(max_length=512)
     partie_cours = models.CharField(max_length=512)
     longueur = models.PositiveSmallIntegerField(choices=LONGUEUR_CHOICES)
     but = models.CharField(max_length=512)
-    ex_id = models.IntegerField()
     difficulte = models.PositiveSmallIntegerField(choices=DIFFICULTE_CHOICES, default=0)
 
 
@@ -32,4 +32,3 @@ class Correction(models.Model):
     nombre_de_methode = models.BooleanField()
     commentaires = models.PositiveSmallIntegerField(choices=COMMENTAIRES_CHOICES)
     theoreme = models.BooleanField()
-    cours = models.CharField(max_length=512, default="Cours1")

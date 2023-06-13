@@ -1,0 +1,20 @@
+{% extends "profik/base.html" %} {% block content %}
+<h1>Add Correction</h1>
+<p>Exercise: {{ exercise.id }}</p>
+<div>
+  {% if num_remaining_combinations > 0 %}
+  <h2>Correction Properties:</h2>
+  <form method="post" action="{% url 'add_correction' exercise.id %}">
+    {% csrf_token %} {{ form.text.label_tag }} {{ form.text }} <br />
+    {{ form.theoreme.label_tag }} {{ form.theoreme.value }} <br />
+    {{ form.nombre_de_methode.label_tag }} {{ form.nombre_de_methode.value }}
+    <br />
+    {{ form.commentaires.label_tag }} {{ form.commentaires.value }} <br />
+    {% for field in form.hidden_fields %} {{ field }} {% endfor %}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% else %}
+<p>No more combinations to display.</p>
+{% endif %} {% endblock %}
