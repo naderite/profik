@@ -47,13 +47,13 @@ def add_exercise(request):
 
 
 def extract_exercise_data_from_form(form):
-    exercise_niveau = form.cleaned_data['exercise_niveau']
-    exercise_cours = form.cleaned_data['exercise_cours']
-    exercise_partie_cours = form.cleaned_data['exercise_partie_cours']
-    exercise_longueur = form.cleaned_data['exercise_longueur']
-    exercise_but = form.cleaned_data['exercise_but']
-    exercise_difficulte = form.cleaned_data['exercise_difficulte']
-    exercise_text = form.cleaned_data['exercise_text']
+    exercise_niveau = form.cleaned_data['niveau']
+    exercise_cours = form.cleaned_data['cours']
+    exercise_partie_cours = form.cleaned_data['partie_cours']
+    exercise_longueur = form.cleaned_data['longueur']
+    exercise_but = form.cleaned_data['but']
+    exercise_difficulte = form.cleaned_data['difficulte']
+    exercise_text = form.cleaned_data['text']
     return (
         exercise_niveau,
         exercise_cours,
@@ -74,7 +74,10 @@ def fill_exercise_data(exercise, exercise_data):
     exercise.difficulte = exercise_data[5]
     exercise.text = exercise_data[6]
 
+
+current_index = 0
 def add_correction(request, exercise_id):
+    global current_index
     exercise = Exercise.objects.get(id=exercise_id)
     theoreme_values = [True, False]
     nombre_de_methode_values = [True, False]
@@ -82,10 +85,11 @@ def add_correction(request, exercise_id):
     combinations = list(itertools.product(theoreme_values, nombre_de_methode_values, commentaire_values))
     num_combinations = len(combinations)
 
-    current_index = request.session.get('current_index', 0)
-
     if request.method == 'POST':
         form = CorrectionForm(request.POST)
+        print(current_index)
+        print(num_combinations)
+        print(form.is_valid())
         if form.is_valid():
             text = form.cleaned_data['text']
             current_combination = combinations[current_index]
@@ -109,9 +113,6 @@ def add_correction(request, exercise_id):
                     'nombre_de_methode': next_combination[1],
                     'commentaires': next_combination[2]
                 })
-                form.fields['theoreme'].widget = forms.HiddenInput()
-                form.fields['nombre_de_methode'].widget = forms.HiddenInput()
-                form.fields['commentaires'].widget = forms.HiddenInput()
     else:
         initial_combination = combinations[0]
         form = CorrectionForm(initial={
@@ -120,18 +121,14 @@ def add_correction(request, exercise_id):
             'nombre_de_methode': initial_combination[1],
             'commentaires': initial_combination[2]
         })
-        form.fields['theoreme'].widget = forms.HiddenInput()
-        form.fields['nombre_de_methode'].widget = forms.HiddenInput()
-        form.fields['commentaires'].widget = forms.HiddenInput()
-
-    request.session['current_index'] = current_index
 
     context = {
         'form': form,
         'exercise': exercise,
         'current_index': current_index,
         'num_combinations': num_combinations,
-        'num_remaining_combinations': num_combinations - current_index - 1
+        'num_remaining_combinations': num_combinations - current_index - 1,
+        'form_errors': form.errors  # Include form errors in the context
     }
     return render(request, 'profik/add_correction.html', context)
 

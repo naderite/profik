@@ -5,12 +5,32 @@
   {% if num_remaining_combinations > 0 %}
   <h2>Correction Properties:</h2>
   <form method="post" action="{% url 'add_correction' exercise.id %}">
-    {% csrf_token %} {{ form.text.label_tag }} {{ form.text }} <br />
+    {% csrf_token %} 
+    <p>Correction text</p> 
+    {{ form.text }} <br />
     {{ form.theoreme.label_tag }} {{ form.theoreme.value }} <br />
     {{ form.nombre_de_methode.label_tag }} {{ form.nombre_de_methode.value }}
     <br />
     {{ form.commentaires.label_tag }} {{ form.commentaires.value }} <br />
+
     {% for field in form.hidden_fields %} {{ field }} {% endfor %}
+    {% if form.errors %}
+    <div class="form-errors">
+      <ul>
+        {% for field in form %} {% if field.errors %}
+        <li>
+          {{ field.label }}:
+          <ul>
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %} {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
     <input type="submit" value="Submit" />
   </form>
 </div>
