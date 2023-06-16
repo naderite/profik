@@ -4,7 +4,6 @@ from .backend_logic import search_correction, search_exercise, fill_exercise_dat
 from .forms import ExerciseForm, CorrectionForm, QuestionForm
 from .models import Exercise, Correction, Question
 from django.urls import reverse
-from django.contrib import messages
 
 
 # Create your views here.

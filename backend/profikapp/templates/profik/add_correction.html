@@ -40,11 +40,4 @@
   </form>
 </div>
 {% endif %} 
-{% if current_index >= num_combinations %}
-<p>All combinations have been processed. Redirecting to add_question...</p>
-<script>
-  setTimeout(function() {
-    window.location.href = "{% url 'add_question' exercise.id %}";}, 3000);  // Redirect after 3 seconds
-</script>
-{% endif %}
 {% endblock %}

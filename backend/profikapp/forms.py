@@ -1,5 +1,4 @@
 from django import forms
-from smart_selects.form_fields import ChainedModelChoiceField
 from .models import Exercise, Course, CoursePart
 LONGUEUR_CHOICES = [
     (0, 'court'),
