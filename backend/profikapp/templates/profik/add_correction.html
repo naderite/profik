@@ -1,6 +1,11 @@
 {% extends "profik/base.html" %} {% block content %}
 <h1>Add Correction</h1>
 <p>Exercise: {{ exercise.id }}</p>
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+{% endif %}
 <div>
   {% if num_remaining_combinations > 0 %}
   <h2>Correction Properties:</h2>
@@ -34,7 +39,12 @@
     <input type="submit" value="Submit" />
   </form>
 </div>
-
-{% else %}
-<p>No more combinations to display.</p>
-{% endif %} {% endblock %}
+{% endif %} 
+{% if current_index >= num_combinations %}
+<p>All combinations have been processed. Redirecting to add_question...</p>
+<script>
+  setTimeout(function() {
+    window.location.href = "{% url 'add_question' exercise.id %}";}, 3000);  // Redirect after 3 seconds
+</script>
+{% endif %}
+{% endblock %}

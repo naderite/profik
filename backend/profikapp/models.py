@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Course(models.Model):
     title = models.CharField(max_length=512)
 
@@ -22,23 +21,24 @@ class Exercise(models.Model):
         (2, 'deficile'),
     ]
     niveau = models.CharField(max_length=512, default='bac')
-    text = models.TextField(default='default_value_here')
-    cours = models.ForeignKey(Course, on_delete=models.CASCADE)
-    partie_cours = models.ForeignKey(CoursePart, on_delete=models.CASCADE)
+    course_part_id = models.ForeignKey(CoursePart, on_delete=models.CASCADE,default=1)
     longueur = models.PositiveSmallIntegerField(choices=LONGUEUR_CHOICES)
     but = models.CharField(max_length=512)
     difficulte = models.PositiveSmallIntegerField(choices=DIFFICULTE_CHOICES, default=0)
 
-
+class Question(models.Model):
+    exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    order = models.CharField(max_length=12)
+    text = models.TextField() 
 class Correction(models.Model):
     COMMENTAIRES_CHOICES = [
         (0, 'minimum'),
         (1, 'moyen'),
         (2, 'trés explicatif'),
     ]
-    
-    ex_id = models.IntegerField()
+    nombre_de_methode = models.BooleanField(default=False)
+    commentaires = models.PositiveSmallIntegerField(choices=COMMENTAIRES_CHOICES,default=0)
+    theoreme = models.BooleanField(default=False)
+    question_id = models.IntegerField(default=0)
     text = models.TextField(default='default_value_here')
-    nombre_de_methode = models.BooleanField()
-    commentaires = models.PositiveSmallIntegerField(choices=COMMENTAIRES_CHOICES)
-    theoreme = models.BooleanField()
+    

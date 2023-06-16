@@ -1,6 +1,6 @@
 from django import forms
-from .models import Correction
-
+from smart_selects.form_fields import ChainedModelChoiceField
+from .models import Exercise, Course, CoursePart
 LONGUEUR_CHOICES = [
     (0, 'court'),
     (1, 'long'),
@@ -23,21 +23,20 @@ THEOREME_CHOICES = [
 NOMBRE_DE_CHOICES = [(True, 'Seule'), (False, 'Multiple')] 
 
 
-from django import forms
-from .models import Course, CoursePart
-
 class ExerciseForm(forms.Form):
     niveau = forms.CharField(label='Exercise Niveau')
     cours = forms.ModelChoiceField(queryset=Course.objects.all(), label='Exercise Cours')
-    partie_cours = forms.ModelChoiceField(queryset=CoursePart.objects.all(), label='Exercise partie de cours')
+    course_part_id = forms.ModelChoiceField(queryset=CoursePart.objects.all(), label='Exercise partie de cours')
     longueur = forms.ChoiceField(choices=LONGUEUR_CHOICES, label='Exercise longueur')
     but = forms.CharField(label='Exercise but')
     difficulte = forms.ChoiceField(choices=DIFFICULTE_CHOICES, label='Exercise difficulte')
-    text = forms.CharField(widget=forms.Textarea(), label='Exercise text')
 
+class QuestionForm(forms.Form):
+    order = forms.CharField(label="l'ordre de la question:")
+    text = forms.CharField(widget=forms.Textarea,label='text')
 
 class CorrectionForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea(), label='Exercise text')
+    text = forms.CharField(widget=forms.Textarea,label='text:')
     theoreme = forms.ChoiceField(
         choices=THEOREME_CHOICES,
         label='Theoreme',

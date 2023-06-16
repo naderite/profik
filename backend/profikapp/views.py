@@ -1,10 +1,10 @@
 import itertools
 from django.shortcuts import render, redirect
-from .backend_logic import search_correction, search_exercise
-from .forms import ExerciseForm, CorrectionForm
-from .models import Exercise, Correction
+from .backend_logic import search_correction, search_exercise, fill_exercise_data,extract_exercise_data_from_form
+from .forms import ExerciseForm, CorrectionForm, QuestionForm
+from .models import Exercise, Correction, Question
 from django.urls import reverse
-from django import forms
+from django.contrib import messages
 
 
 # Create your views here.
@@ -37,48 +37,34 @@ def add_exercise(request):
             exercise = Exercise()
             fill_exercise_data(exercise, exercise_data)
             exercise.save()
-            # Redirect to the add correction page
-            return redirect(reverse('add_correction', args=[exercise.id]))
+            # Redirect to the add question page
+            return redirect(reverse('add_question', args=[exercise.id]))
 
     else:
         form = ExerciseForm()
 
     return render(request, 'profik/add_exercise.html', {'form': form})
 
-
-def extract_exercise_data_from_form(form):
-    exercise_niveau = form.cleaned_data['niveau']
-    exercise_cours = form.cleaned_data['cours']
-    exercise_partie_cours = form.cleaned_data['partie_cours']
-    exercise_longueur = form.cleaned_data['longueur']
-    exercise_but = form.cleaned_data['but']
-    exercise_difficulte = form.cleaned_data['difficulte']
-    exercise_text = form.cleaned_data['text']
-    return (
-        exercise_niveau,
-        exercise_cours,
-        exercise_partie_cours,
-        exercise_longueur,
-        exercise_but,
-        exercise_difficulte,
-        exercise_text,
-    )
-
-
-def fill_exercise_data(exercise, exercise_data):
-    exercise.niveau = exercise_data[0]
-    exercise.cours = exercise_data[1]
-    exercise.partie_cours = exercise_data[2]
-    exercise.longueur = exercise_data[3]
-    exercise.but = exercise_data[4]
-    exercise.difficulte = exercise_data[5]
-    exercise.text = exercise_data[6]
-
+def add_questoin(request,exercise_id):
+    exercise = Exercise.objects.get(id=exercise_id)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            order = form.cleaned_data['order']
+            text = form.cleaned_data['text']
+            question = Question(order=order,text=text,exercise_id= exercise)
+            question.save()
+            # Redirect to the add correction page
+            return redirect(reverse('add_correction', args=[question.id]))
+    else:
+        form= QuestionForm()
+    return render(request, 'profik/add_question.html', {'form':form})
 
 current_index = 0
-def add_correction(request, exercise_id):
+
+def add_correction(request, question_id):
     global current_index
-    exercise = Exercise.objects.get(id=exercise_id)
+    question = Question.objects.get(id=question_id)
     theoreme_values = [True, False]
     nombre_de_methode_values = [True, False]
     commentaire_values = [0, 1, 2]
@@ -87,9 +73,6 @@ def add_correction(request, exercise_id):
 
     if request.method == 'POST':
         form = CorrectionForm(request.POST)
-        print(current_index)
-        print(num_combinations)
-        print(form.is_valid())
         if form.is_valid():
             text = form.cleaned_data['text']
             current_combination = combinations[current_index]
@@ -99,20 +82,23 @@ def add_correction(request, exercise_id):
                 nombre_de_methode=current_combination[1],
                 commentaires=current_combination[2],
                 text=text,
-                ex_id=exercise.id
+                question_id=question.id
             )
             correction.save()
 
             current_index += 1
 
-            if current_index < num_combinations:
-                next_combination = combinations[current_index]
-                form = CorrectionForm(initial={
-                    'text': '',
-                    'theoreme': next_combination[0],
-                    'nombre_de_methode': next_combination[1],
-                    'commentaires': next_combination[2]
-                })
+            if current_index >= num_combinations - 1:
+                # Redirect to add_question view
+                return redirect(reverse('add_question', args=[question.exercise_id.id]))
+            next_combination = combinations[current_index]
+            form = CorrectionForm(initial={
+                'text': '',
+                'theoreme': next_combination[0],
+                'nombre_de_methode': next_combination[1],
+                'commentaires': next_combination[2]
+            })
+
     else:
         initial_combination = combinations[0]
         form = CorrectionForm(initial={
@@ -124,7 +110,7 @@ def add_correction(request, exercise_id):
 
     context = {
         'form': form,
-        'exercise': exercise,
+        'exercise': question,
         'current_index': current_index,
         'num_combinations': num_combinations,
         'num_remaining_combinations': num_combinations - current_index - 1,
