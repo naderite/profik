@@ -1,7 +1,10 @@
-from .models import Exercise, Correction,Question
+from .models import Exercise, Correction, Question
 import random
+import itertools
+from .forms import CorrectionForm
 
-def find_exercise(exercise_length, exercise_course_part, exercise_goal, exercise_difficulty):
+
+def _find_exercise(exercise_length, exercise_course_part, exercise_goal, exercise_difficulty):
     """
     Finds an exercise based on the provided parameters.
 
@@ -16,7 +19,7 @@ def find_exercise(exercise_length, exercise_course_part, exercise_goal, exercise
     return random.choice(exercises) if exercises else None
 
 
-def find_correction(correction_theorem, correction_course, correction_has_methods, correction_comments, question):
+def _find_correction(correction_theorem, correction_course, correction_has_methods, correction_comments, question):
     """
     Finds a correction based on the provided parameters.
 
@@ -32,8 +35,7 @@ def find_correction(correction_theorem, correction_course, correction_has_method
     return random.choice(corrections) if corrections else None
 
 
-
-def search_exercise(request):
+def _search_exercise(request):
     """
     Searches for an exercise based on the query parameters in the request.
 
@@ -43,7 +45,7 @@ def search_exercise(request):
     exercise_course_part = request.GET.get('course_part')
     exercise_goal = request.GET.get('goal')
     exercise_difficulty = request.GET.get('difficulty')
-    return find_exercise(
+    return _find_exercise(
         exercise_length,
         exercise_course_part,
         exercise_goal,
@@ -51,7 +53,7 @@ def search_exercise(request):
     )
 
 
-def search_correction(question_id, request):
+def _search_correction(question_id, request):
     """
     Searches for a correction based on the query parameters in the request.
 
@@ -62,7 +64,7 @@ def search_correction(question_id, request):
     correction_has_methods = bool(request.GET.get('has_methods'))
     correction_comments = request.GET.get('comments')
     question = Question.objects.get(id=question_id)
-    return find_correction(
+    return _find_correction(
         correction_theorem,
         correction_course,
         correction_has_methods,
@@ -71,7 +73,7 @@ def search_correction(question_id, request):
     )
 
 
-def extract_exercise_data_from_form(form):
+def _extract_exercise_data_from_form(form):
     """
     Extracts exercise data from a form.
 
@@ -85,7 +87,7 @@ def extract_exercise_data_from_form(form):
     return exercise_level, exercise_course_part, exercise_length, exercise_goal, exercise_difficulty
 
 
-def fill_exercise_data(exercise, exercise_data):
+def _fill_exercise_data(exercise, exercise_data):
     """
     Fills exercise data into the provided exercise instance.
 
@@ -96,3 +98,44 @@ def fill_exercise_data(exercise, exercise_data):
     exercise.length = exercise_data[2]
     exercise.goal = exercise_data[3]
     exercise.difficulty = exercise_data[4]
+
+
+def _generate_combinations():
+    theorem_values = [True, False]
+    number_of_methods_values = [True, False]
+    comment_values = [0, 1, 2]
+    return list(itertools.product(theorem_values, number_of_methods_values, comment_values))
+
+
+def _create_correction(question, combination, text):
+    return Correction.objects.create(
+        has_theorem=combination[0],
+        has_methods=combination[1],
+        comments=combination[2],
+        text=text,
+        question=question
+    )
+
+
+def _has_remaining_combinations(current_index,num_combinations):
+    return current_index < num_combinations - 1
+
+
+def _get_correction_form(combination):
+    return CorrectionForm(initial={
+        'text': '',
+        'has_theorem': combination[0],
+        'has_methods': combination[1],
+        'comments': combination[2]
+    })
+
+
+def _get_correction_context(question, num_combinations, combinations, form):
+    return {
+        'form': form,
+        'question': question,
+        'current_index': num_combinations - len(combinations),
+        'num_combinations': num_combinations,
+        'num_remaining_combinations': len(combinations),
+        'form_errors': form.errors  # Include form errors in the context
+    }

@@ -59,7 +59,7 @@ class CorrectionForm(forms.Form):
         initial=True,
         widget=forms.HiddenInput,
     )  # Theorem inclusion
-    has_method = forms.ChoiceField(
+    has_methods = forms.ChoiceField(
         choices=METHODS_CHOICES,
         initial=True,
         label='Nombre de méthodes',

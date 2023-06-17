@@ -1,119 +1,148 @@
-import itertools
-from django.shortcuts import render, redirect
-from .backend_logic import search_correction, search_exercise, fill_exercise_data,extract_exercise_data_from_form
+from django.shortcuts import render, redirect, get_object_or_404
+from .backend_logic import _search_correction, _search_exercise, _fill_exercise_data, _extract_exercise_data_from_form
+from .backend_logic import _create_correction, _generate_combinations, _get_correction_context, _has_remaining_combinations, _get_correction_form
 from .forms import ExerciseForm, CorrectionForm, QuestionForm
-from .models import Exercise, Correction, Question
+from .models import Exercise, Question
 from django.urls import reverse
-
+from django.contrib.sessions.backends.db import SessionStore
 
 # Create your views here.
+
 def handler500(request):
+    """
+    Handler for server error (500) response.
+    """
     return render(request, '500.html', status=500)
 
 
-def generateur_exercice(request):
+def exercise_generator(request):
+    """
+    Generates an exercise.
+    """
     if request.method != 'GET':
         return render(request, 'profik/generateur.html', {'exercise': None})
 
-    exercise = search_exercise(request)
-    
+    exercise = _search_exercise(request)
+
     return render(request, 'profik/generateur.html', {'exercise': exercise})
 
-
 def show_correction(request, exercise=None):
+    """
+    Render the correction page for a given exercise.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        exercise (Exercise, optional): The exercise object. Defaults to None.
+
+    Returns:
+        HttpResponse: The rendered correction page.
+    """
     if request.method != 'GET':
         return render(request, 'profik/correction.html', {'correction': None})
-    ex_id = request.GET.get('ex_id')
-    correction = search_correction(ex_id, request) if ex_id else None
+
+    exercise_id = request.GET.get('exercise_id')
+    correction = _search_correction(exercise_id, request) if exercise_id else None
     return render(request, 'profik/correction.html', {'correction': correction})
 
-
 def add_exercise(request):
+    """
+    Add a new exercise.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered add exercise page or a redirect to the add question page.
+    """
     if request.method == 'POST':
         form = ExerciseForm(request.POST)
         if form.is_valid():
-            exercise_data = extract_exercise_data_from_form(form)
+            exercise_data = _extract_exercise_data_from_form(form)
             exercise = Exercise()
-            fill_exercise_data(exercise, exercise_data)
+            _fill_exercise_data( exercise, exercise_data)
             exercise.save()
             # Redirect to the add question page
             return redirect(reverse('add_question', args=[exercise.id]))
-
     else:
         form = ExerciseForm()
 
     return render(request, 'profik/add_exercise.html', {'form': form})
 
-def add_questoin(request,exercise_id):
+
+def add_question(request, exercise_id):
+    """
+    Add a new question to an exercise.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        exercise_id (int): The ID of the exercise.
+
+    Returns:
+        HttpResponse: The rendered add question page or a redirect to the add correction page.
+    """
     exercise = Exercise.objects.get(id=exercise_id)
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
             order = form.cleaned_data['order']
             text = form.cleaned_data['text']
-            question = Question(order=order,text=text,exercise_id= exercise)
+            question = Question(order=order, text=text, exercise=exercise)
             question.save()
             # Redirect to the add correction page
             return redirect(reverse('add_correction', args=[question.id]))
     else:
-        form= QuestionForm()
-    return render(request, 'profik/add_question.html', {'form':form})
+        form = QuestionForm()
 
-current_index = 0
+    return render(request, 'profik/add_question.html', {'form': form})
 
 def add_correction(request, question_id):
-    global current_index
-    question = Question.objects.get(id=question_id)
-    theoreme_values = [True, False]
-    nombre_de_methode_values = [True, False]
-    commentaire_values = [0, 1, 2]
-    combinations = list(itertools.product(theoreme_values, nombre_de_methode_values, commentaire_values))
-    num_combinations = len(combinations)
+    """
+    Add a correction to a question.
 
+    Args:
+        request (HttpRequest): The HTTP request object.
+        question_id (int): The ID of the question.
+
+    Returns:
+        HttpResponse: The rendered add correction page or a redirect to the add question page.
+    """
+    question = get_object_or_404(Question, id=question_id)
+    combinations = _generate_combinations()
+    # Retrieve current_index from session or generate new ones
+    session = SessionStore(session_key=request.session.session_key)
+    current_index = session.get('current_index')
+    if not current_index:
+        session['current_index'] = 0
+        session.save()
+    num_combinations = len(combinations)
+  
+    print(current_index, num_combinations)
     if request.method == 'POST':
         form = CorrectionForm(request.POST)
         if form.is_valid():
+
+            if not _has_remaining_combinations(current_index,num_combinations):
+                # Update current_index in the session
+                session['current_index'] = 0
+                session.save()
+                # Redirect to add_question view
+                return redirect(reverse('add_question', args=[question.exercise.id]))
+            
             text = form.cleaned_data['text']
             current_combination = combinations[current_index]
-
-            correction = Correction(
-                theoreme=current_combination[0],
-                nombre_de_methode=current_combination[1],
-                commentaires=current_combination[2],
-                text=text,
-                question_id=question.id
-            )
+            correction = _create_correction(question, current_combination, text)
             correction.save()
-
-            current_index += 1
-
-            if current_index >= num_combinations - 1:
-                # Redirect to add_question view
-                return redirect(reverse('add_question', args=[question.exercise_id.id]))
+            current_index +=1
+            
+            session['current_index'] = current_index  # Update current_index in the session
+            session.save()  # Save the session after updating the value
             next_combination = combinations[current_index]
-            form = CorrectionForm(initial={
-                'text': '',
-                'theoreme': next_combination[0],
-                'nombre_de_methode': next_combination[1],
-                'commentaires': next_combination[2]
-            })
-
+            form = _get_correction_form(next_combination)
     else:
         initial_combination = combinations[0]
-        form = CorrectionForm(initial={
-            'text': '',
-            'theoreme': initial_combination[0],
-            'nombre_de_methode': initial_combination[1],
-            'commentaires': initial_combination[2]
-        })
+        form = _get_correction_form(initial_combination)
 
-    context = {
-        'form': form,
-        'exercise': question,
-        'current_index': current_index,
-        'num_combinations': num_combinations,
-        'num_remaining_combinations': num_combinations - current_index - 1,
-        'form_errors': form.errors  # Include form errors in the context
-    }
+    context = _get_correction_context(question, num_combinations, combinations, form)
     return render(request, 'profik/add_correction.html', context)
+
 

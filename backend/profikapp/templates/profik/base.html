@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profik</title>
-    <style>
-      select {
-        width: 100px;
-        margin: 10px;
-      }
-      p {
-        height: 100px;
-        width: 100px;
-        border: 3px solid red;
-        margin: 5px;
-      }
-      button{
-        margin-top: 10px;
-      }
-  
-    </style>
-    {% block head %} {%endblock%}
-  </head>
-  <body>
-    <div>{% block content %} {%endblock%}</div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profik</title>
+  <style>
+    /* Custom styles for better presentation */
+    /* Add your custom styles or utilize a CSS framework here */
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+
+    select {
+      width: 100px;
+      margin: 10px;
+    }
+
+    .box {
+      height: 100px;
+      width: 100px;
+      border: 3px solid red;
+      margin: 5px;
+    }
+
+    .button {
+      margin-top: 10px;
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
 </html>
