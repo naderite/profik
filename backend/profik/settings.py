@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'profikapp.apps.ProfikappConfig',
     "smart_selects",
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
