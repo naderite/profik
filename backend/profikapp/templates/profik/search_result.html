@@ -1,0 +1,29 @@
+{% extends "profik/base.html" %} 
+{% block content %} 
+<div>
+  {% if exercise %}
+  <p>Exercise: {{ exercise.heading }}</p>
+  <ul>
+    {% for question in exercise.questions.all %}
+    <li>
+      <p>Question: {{ question.text }}</p>
+      <ul>
+        {% for correction in question.correction_set.all %}
+        {% if correction.theoreme == form.cleaned_data.theoreme and correction.has_methods == form.cleaned_data.has_methods and correction.comments == form.cleaned_data.comments %}
+        <li>Correction: {{ correction.text }}</li>
+        {% endif %}
+        {% empty %}
+        <li>No corrections found for this question</li>
+        {% endfor %}
+      </ul>
+    </li>
+    {% empty %}
+    <li>No questions found for this exercise</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>Exercise not found</p>
+  {% endif %}
+</div>
+
+ {% endblock %}

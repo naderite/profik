@@ -17,6 +17,7 @@ class ExerciseForm(forms.Form):
         (1, 'moyen'),  # Medium difficulty
         (2, 'difficile'),  # Difficult difficulty
     ]
+    head = forms.CharField(widget=forms.Textarea,label="Tête de l'exercice")
     level = forms.CharField(label='Niveau de l\'exercice')  # Exercise level
     course = forms.ModelChoiceField(queryset=Course.objects.all(), label='Cours de l\'exercice')  # Exercise course
     course_part = forms.ModelChoiceField(queryset=CoursePart.objects.all(), label='Partie de cours de l\'exercice')  # Exercise course part

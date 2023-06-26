@@ -26,6 +26,7 @@ class Exercise(models.Model):
     length = models.PositiveSmallIntegerField(choices=LENGTH_CHOICES)
     goal = models.CharField(max_length=512)
     difficulty = models.PositiveSmallIntegerField(choices=DIFFICULTY_CHOICES, default=0)
+    head = models.TextField(default='')
 
 
 class Question(models.Model):

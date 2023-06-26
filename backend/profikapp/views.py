@@ -19,30 +19,39 @@ def exercise_generator(request):
     """
     Generates an exercise.
     """
-    if request.method != 'GET':
-        return render(request, 'profik/generateur.html', {'exercise': None})
+    exercise_form = ExerciseForm(request.GET or None)
+    exercise = None
 
-    exercise = _search_exercise(request)
+    if request.method == 'GET' and exercise_form.is_valid():
+        exercise = _search_exercise(request)
 
-    return render(request, 'profik/generateur.html', {'exercise': exercise})
+    return render(request, 'profik/generator.html', {'exercise_form': exercise_form, 'exercise': exercise})
 
-def show_correction(request, exercise=None):
+
+def show_search_result(request, exercise_id=None):
     """
     Render the correction page for a given exercise.
 
     Args:
         request (HttpRequest): The HTTP request object.
-        exercise (Exercise, optional): The exercise object. Defaults to None.
+        exercise_id (int, optional): The exercise ID. Defaults to None.
 
     Returns:
         HttpResponse: The rendered correction page.
     """
-    if request.method != 'GET':
-        return render(request, 'profik/correction.html', {'correction': None})
+    if request.method == 'POST':
+        correction_form = CorrectionForm(request.POST)
+        if correction_form.is_valid():
+            exercise_id = correction_form.cleaned_data['exercise_id']
+            return redirect('show_correction', exercise_id=exercise_id)
 
-    exercise_id = request.GET.get('exercise_id')
+    else:
+        correction_form = CorrectionForm()
+
     correction = _search_correction(exercise_id, request) if exercise_id else None
-    return render(request, 'profik/correction.html', {'correction': correction})
+    return render(request, 'profik/search_result.html', {'correction_form': correction_form, 'correction': correction})
+
+
 
 def add_exercise(request):
     """
