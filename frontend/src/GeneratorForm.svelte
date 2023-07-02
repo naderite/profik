@@ -7,21 +7,66 @@
   let coursePartOptions = [];
 
   onMount(async () => {
-    // Fetch course and course part options from the server
+    // Fetch course options from the server
     courseOptions = await fetchCourseOptions();
     coursePartOptions = await fetchCoursePartOptions();
   });
 
   async function fetchCourseOptions() {
-    // Implement logic to fetch course options from the server
-    // Return the options as an array
-    // Example: return [{ id: 1, name: 'Course 1' }, { id: 2, name: 'Course 2' }]
-  }
+    try {
+      const response = await fetch("http://localhost:8000/api/courses/");
+      const stream = response.body;
 
-  async function fetchCoursePartOptions() {
-    // Implement logic to fetch course part options from the server
-    // Return the options as an array
-    // Example: return [{ id: 1, name: 'Part 1' }, { id: 2, name: 'Part 2' }]
+      const reader = stream.getReader();
+      const chunks = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        chunks.push(value);
+      }
+
+      const allChunks = new Uint8Array(
+        chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), [])
+      );
+      const data = JSON.parse(new TextDecoder().decode(allChunks));
+
+      return data.courses;
+    } catch (error) {
+      console.error("Error while fetching course options:", error);
+      return [];
+    }
+  }
+  async function fetchCoursePartOptions(courseId) {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/course-parts/?course_id=${courseId}`
+      );
+      const stream = response.body;
+
+      const reader = stream.getReader();
+      const chunks = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        chunks.push(value);
+      }
+
+      const allChunks = new Uint8Array(
+        chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), [])
+      );
+      const data = JSON.parse(new TextDecoder().decode(allChunks));
+
+      return data.course_parts;
+    } catch (error) {
+      console.error("Error while fetching course part options:", error);
+      return [];
+    }
   }
 </script>
 
