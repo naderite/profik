@@ -4,18 +4,19 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
 from profikapp.models import Course, CoursePart
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import CoursePartSerializer
 
 
 class CourseAPIView(View):
     def get(self, request):
-        courses = Course.objects.all().values("id", "course_title")
+        courses = Course.objects.all().values("id", "title")
         return JsonResponse({"courses": list(courses)})
 
 
-class CoursePartAPIView(View):
+class CoursePartAPIView(APIView):
     def get(self, request):
-        course_id = request.GET.get("course_id")
-        course_parts = CoursePart.objects.filter(course_id=course_id).values(
-            "id", "part_title"
-        )
-        return JsonResponse({"course_parts": list(course_parts)})
+        course_parts = CoursePart.objects.all()
+        serializer = CoursePartSerializer(course_parts, many=True)
+        return Response(serializer.data)

@@ -32,6 +32,16 @@
     { value: 2, label: "récurrence" },
     { value: 3, label: "absurd" },
   ];
+
+  function filterCourseParts(courseParts, courseId) {
+    if (!courseId) {
+      // If courseId is not provided, return an empty array
+      return [];
+    }
+
+    // Filter course parts based on the courseId
+    return courseParts.filter((part) => part.course === courseId);
+  }
 </script>
 
 <div>
@@ -48,7 +58,7 @@
     Le cours:
     <select bind:value={course}>
       {#each courseOptions as option}
-        <option value={option.id}>{option.name}</option>
+        <option value={option.id}>{option.title}</option>
       {/each}
     </select>
   </label>
@@ -56,9 +66,13 @@
   <label>
     La partie de cours:
     <select bind:value={coursePart}>
-      {#each coursePartOptions as option}
-        <option value={option.id}>{option.name}</option>
-      {/each}
+      {#if course}
+        {#each filterCourseParts(coursePartOptions, course) as option}
+          <option value={option.id}>{option.title}</option>
+        {/each}
+      {:else}
+        <option value={null}>Select a course first</option>
+      {/if}
     </select>
   </label>
 

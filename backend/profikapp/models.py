@@ -2,14 +2,14 @@ from django.db import models
 
 
 class Course(models.Model):
-    course_title = models.CharField(max_length=512)
+    title = models.CharField(max_length=512)
 
 
 class CoursePart(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, default=1, db_index=True
     )
-    part_title = models.CharField(max_length=512)
+    title = models.CharField(max_length=512)
 
 
 class Exercise(models.Model):
