@@ -1,4 +1,6 @@
 <script>
+  import { afterUpdate } from "svelte";
+
   export let courseOptions;
   export let coursePartOptions;
 
@@ -8,7 +10,6 @@
   let length = 0;
   let reasoning = 0;
   let difficulty = 0;
-
   const levelChoices = [
     { value: "bac tech", label: "Bac technique" },
     { value: "bac SC", label: "Bac science" },
@@ -42,6 +43,18 @@
     // Filter course parts based on the courseId
     return courseParts.filter((part) => part.course === courseId);
   }
+
+  export let exerciseFormData;
+  afterUpdate(async () => {
+    exerciseFormData = {
+      level,
+      course,
+      coursePart,
+      length,
+      reasoning,
+      difficulty,
+    };
+  });
 </script>
 
 <div>

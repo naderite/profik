@@ -29,18 +29,21 @@ class Exercise(models.Model):
         (2, "récurrence"),
         (3, "absurd"),
     ]
-    level = models.CharField(max_length=512, default="bac")
+    LEVEL_CHOICES = [
+        ("bac tech", "Bac technique"),
+        ("bac SC", "Bac science"),
+        ("bac math", "Bac math"),
+    ]
+    level = models.CharField(max_length=512, default="bac", choices=LEVEL_CHOICES)
     course_part = models.ForeignKey(CoursePart, on_delete=models.CASCADE, default=1)
     length = models.PositiveSmallIntegerField(choices=LENGTH_CHOICES)
-    reasoning = models.CharField(max_length=512)
+    reasoning = models.PositiveBigIntegerField(choices=REASONING_CHOICES)
     difficulty = models.PositiveSmallIntegerField(choices=DIFFICULTY_CHOICES, default=0)
     head = models.TextField(default="")
 
 
 class Question(models.Model):
-    exercise = models.ForeignKey(
-        Exercise, on_delete=models.CASCADE, related_name="questions", default=1
-    )
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, default=1)
     order = models.CharField(max_length=12)
     text = models.TextField()
 

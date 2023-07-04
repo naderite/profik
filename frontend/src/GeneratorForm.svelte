@@ -52,20 +52,24 @@
     }
 
     try {
-      // Combine exerciseFormData and correctionFormData into a single object
-      const formData = {
-        ...exerciseFormData,
-        ...correctionFormData,
-      };
+      // Construct the query parameters
+      const queryParams = new URLSearchParams();
+      queryParams.append("course", exerciseFormData.course);
+      queryParams.append("coursePart", exerciseFormData.coursePart);
+      queryParams.append("length", exerciseFormData.length);
+      queryParams.append("reasoning", exerciseFormData.reasoning);
+      queryParams.append("difficulty", exerciseFormData.difficulty);
 
-      // Send the form data to the API
-      const response = await fetch("http://localhost:8000/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // Send the request to the API
+      const response = await fetch(
+        `http://localhost:8000/api/submit/?${queryParams}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       // Handle the response from the API
       const data = await response.json();
