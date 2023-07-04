@@ -37,8 +37,8 @@ class SearchExercise(View):
         length = request.GET.get("length")
         reasoning = request.GET.get("reasoning")
         difficulty = request.GET.get("difficulty")
-        has_methods = request.GET.get("hasMethods")
-        has_theorem = request.GET.get("hasTheorem")
+        has_methods = request.GET.get("hasMethods") == "true"
+        has_theorem = request.GET.get("hasTheorem") == "true"
         comments = request.GET.get("comments")
 
         # Filter the exercises based on the provided filters
@@ -48,29 +48,39 @@ class SearchExercise(View):
             reasoning=reasoning,
             difficulty=difficulty,
         )
+
         if exercises.exists():
             # Get a random exercise from the filtered exercises
             exercise = random.choice(exercises)
-            # Retrieve the questions and correction for each exercise
-            exercise_data = []
-            questions = exercise.question_set.all()
-            for question in questions:
-                correction = question.correction_set.filter(
-                    has_methods=has_methods,
-                    has_theorem=has_theorem,
-                    comments=comments,
-                )
-
-                exercise_data.append(
-                    {
-                        "exercise": ExerciseSerializer(exercise).data,
-                        "questions": QuestionSerializer(questions, many=True).data,
-                        "corrections": CorrectionSerializer(correction, many=True).data,
-                    }
-                )
-
+            exercise_data = self.extract_exercise_data(
+                exercise, has_methods, has_theorem, comments
+            )
             # Return the exercise data as JSON response
             return JsonResponse({"exercise": exercise_data})
         else:
             # Handle the case when no exercises are found
             return JsonResponse({"error": "No exercises found"})
+
+    def extract_exercise_data(self, exercise, has_methods, has_theorem, comments):
+        questions = exercise.question_set.all()
+        exercise_data = {
+            "exercise": ExerciseSerializer(exercise).data,
+            "questions": [],
+        }
+
+        for question in questions:
+            if correction := Correction.objects.filter(
+                question=question,
+                has_methods=has_methods,
+                has_theorem=has_theorem,
+                comments=comments,
+            ).first():
+                correction_data = CorrectionSerializer(correction).data
+            else:
+                correction_data = None
+
+            question_data = QuestionSerializer(question).data
+            question_data["correction"] = correction_data
+            exercise_data["questions"].append(question_data)
+
+        return exercise_data

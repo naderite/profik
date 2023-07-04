@@ -29,7 +29,6 @@
       hasTheorem,
       comments,
     };
-    console.log(correctionFormData);
   });
 </script>
 

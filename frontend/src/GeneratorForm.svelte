@@ -59,7 +59,9 @@
       queryParams.append("length", exerciseFormData.length);
       queryParams.append("reasoning", exerciseFormData.reasoning);
       queryParams.append("difficulty", exerciseFormData.difficulty);
-
+      queryParams.append("hasTheorem", correctionFormData.hasTheorem);
+      queryParams.append("hasMethods", correctionFormData.hasMethods);
+      queryParams.append("comments", correctionFormData.comments);
       // Send the request to the API
       const response = await fetch(
         `http://localhost:8000/api/submit/?${queryParams}`,
