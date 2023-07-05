@@ -16,6 +16,7 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "svelte-materialify": "^0.3.11"
+    "svelte-materialify": "^0.3.11",
+    "svelte-routing": "^1.11.0"
   }
 }
