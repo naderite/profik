@@ -2,6 +2,7 @@
   import { onMount, afterUpdate } from "svelte";
   import ExerciseForm from "./ExerciseForm.svelte";
   import CorrectionForm from "./CorrectionForm.svelte";
+  import SearchResult from "./SearchResult.svelte";
 
   let courseOptions = [];
   let coursePartOptions = [];
@@ -9,6 +10,8 @@
   let coursePartsFetched = false;
   let exerciseFormData = {};
   let correctionFormData = {};
+  let searchResultData = null;
+  let formSubmitted = false;
 
   onMount(async () => {
     // Fetch course options from the server
@@ -75,19 +78,38 @@
 
       // Handle the response from the API
       const data = await response.json();
-      console.log("API response:", data);
+      console.log(data);
+      // Set the API response data to be used for rendering SearchResults component
+      // Set the searchResultData to update the SearchResult component
+      const exercise = data.exercise.exercise;
+      const questions = data.exercise.questions || [];
+
+      searchResultData = { exercise, questions };
+      console.log(searchResultData);
+
+      // Set formSubmitted to true to hide the generator form
+      formSubmitted = true;
     } catch (error) {
       console.error("Error while submitting the form:", error);
     }
   }
 </script>
 
-<main>
-  <h2>Form Section 1</h2>
-  <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
+{#if !formSubmitted}
+  <main>
+    <h2>Form Section 1</h2>
+    <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
 
-  <h2>Form Section 2</h2>
-  <CorrectionForm bind:correctionFormData />
+    <h2>Form Section 2</h2>
+    <CorrectionForm bind:correctionFormData />
 
-  <button on:click={handleSubmit}>Submit</button>
-</main>
+    <button on:click={handleSubmit}>Submit</button>
+  </main>
+{/if}
+<!-- Pass searchResultData to the SearchResult component -->
+{#if searchResultData}
+  <SearchResult
+    exercise={searchResultData.exercise}
+    questions={searchResultData.questions}
+  />
+{/if}
