@@ -1,11 +1,13 @@
 import random
 
-# Create your views here.
 from django.http import JsonResponse
 from django.views import View
+
 from profikapp.models import Course, CoursePart, Exercise, Correction, Question
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 from .serializers import (
     CoursePartSerializer,
     ExerciseSerializer,
