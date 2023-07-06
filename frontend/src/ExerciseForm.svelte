@@ -57,7 +57,7 @@
   });
 </script>
 
-<div>
+<div class="form-container">
   <label>
     la Difficulté de l'exercice:
     <select bind:value={level}>

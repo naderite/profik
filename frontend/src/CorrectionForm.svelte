@@ -32,7 +32,7 @@
   });
 </script>
 
-<div>
+<div class="form-container">
   <label>
     Théorème
     <select bind:value={hasTheorem}>

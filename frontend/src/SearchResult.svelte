@@ -4,24 +4,18 @@
 </script>
 
 <main>
-  <h2>Search Results</h2>
-  <div>
+  <div class="exercise-container">
     <p>Enoncé:</p>
     <p>{exercise.head}</p>
   </div>
 
-  <div>
-    <p>Questions:</p>
+  <div class="questions-container">
     {#each questions as question}
-      <div>
-        <p>{question.order}</p>
-        <p>Text: {question.text}</p>
+      <div class="question">
+        <p>{question.order}) {question.text}</p>
         {#if question.correction}
-          <div>
-            <p>Correction:</p>
-            <p>Text: {question.correction.text}</p>
-
-            <hr />
+          <div class="correction">
+            <p>Correction: {question.correction.text}</p>
           </div>
         {/if}
       </div>

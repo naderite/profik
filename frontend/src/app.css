@@ -2,10 +2,15 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  font-size: 20px;
+  /*colors variables */
+  --primary-color: #c517f9;
+  --secondary-color: #ef767a;
+  --text-primary-color: #5c5c5c;
+  --text-secondary-color: white;
+  --card-background-color: white;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: rgba(255, 255, 255, 0.95);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,6 +19,75 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/* Add responsive styles */
+@media screen and (max-width: 768px) {
+  /* Modify the styles for smaller screens */
+  body {
+    display: block;
+    min-width: initial;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .card {
+    padding: 1.5em;
+  }
+
+  #app {
+    padding: 1rem;
+  }
+
+  .navbar {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    position: static;
+  }
+
+  .navbar ul {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .navbar li {
+    margin-bottom: 0;
+  }
+
+  .navbar a {
+    padding: 5px;
+    border-radius: 2px;
+  }
+
+  .form-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .form-container select {
+    font-size: 12px;
+  }
+
+  .main-container {
+    padding: 10px;
+  }
+
+  .exercise-container p,
+  .questions-container p {
+    font-size: 14px;
+  }
+
+  .question {
+    margin-top: 5px;
+    padding-left: 10px;
+  }
+
+  .correction {
+    margin-top: 2px;
+    padding-left: 10px;
+  }
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -31,11 +105,20 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
+.title {
+  display: block;
+  place-items: center;
+  color: var(--primary-color);
+  font-size: 2.2em;
   line-height: 1.1;
 }
 
+.indication {
+  color: var(--text-primary-color);
+}
+.warning {
+  color: red;
+}
 .card {
   padding: 2em;
 }
@@ -48,33 +131,138 @@ h1 {
 }
 
 button {
+  display: block;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--secondary-color);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
+  background-color: aqua;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Navbar container */
+.navbar {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--primary-color);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Navbar items */
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li {
+  margin-bottom: 10px;
+}
+
+.navbar a {
+  display: block;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* Active item */
+.navbar .active a {
+  color: var(--text-secondary-color);
+}
+
+.form-container {
+  display: inline-block;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--card-background-color);
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 400;
+  color: var(--text-primary-color);
+}
+
+.form-container select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.form-container select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.form-container option {
+  font-size: 14px;
+}
+
+.form-container .select-placeholder {
+  color: var(--text-secondary-color);
+}
+
+.form-container .select-placeholder:disabled {
+  color: var(--text-secondary-color);
+}
+
+.main-container {
+  padding: 20px;
+  background-color: var(--card-background-color);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.exercise-container,
+.questions-container {
+  margin-bottom: 20px;
+}
+
+.exercise-container p,
+.questions-container p {
+  color: var(--text-primary-color);
+  margin: 0;
+  font-weight: bold;
+}
+
+.questions-container p + p {
+  margin-top: 5px;
+}
+
+.question {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.correction {
+  margin-top: 5px;
+  padding-left: 20px;
+  color: #888;
 }

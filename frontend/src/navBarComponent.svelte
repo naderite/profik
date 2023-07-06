@@ -25,17 +25,19 @@
 </script>
 
 <nav>
-  <ul>
-    <li class:active={activePage === "Generator"}>
-      <button on:click={() => setActivePage("Generator")}>Generator</button>
-    </li>
-    <li class:active={activePage === "Profile"}>
-      <button on:click={() => setActivePage("Profile")}>Profile</button>
-    </li>
-    <li class:active={activePage === "Resumes"}>
-      <button on:click={() => setActivePage("Resumes")}>Resumes</button>
-    </li>
-  </ul>
+  <div class="navbar">
+    <ul>
+      <li class:active={activePage === "Generator"}>
+        <a href="/" on:click={() => setActivePage("Generator")}>Generator</a>
+      </li>
+      <li class:active={activePage === "Profile"}>
+        <a href="/profile" on:click={() => setActivePage("Profile")}>Profile</a>
+      </li>
+      <li class:active={activePage === "Resumes"}>
+        <a href="/resumes" on:click={() => setActivePage("Resumes")}>Resumes</a>
+      </li>
+    </ul>
+  </div>
 </nav>
 
 <main>
@@ -49,9 +51,3 @@
     <ResumesPage />
   {/if}
 </main>
-
-<style>
-  .active {
-    opacity: 0.7;
-  }
-</style>

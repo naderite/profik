@@ -100,10 +100,13 @@
 {#if formFilled}
   {#if !formSubmitted}
     <main>
-      <h2>Form Section 1</h2>
+      <h2 class="title">Générateur des exercices personalisés</h2>
+      <p class="indication">
+        Cliquer sur les menus pour specifier l'exercice puis cliquer sur
+        "Générer" pour voir l'exercice
+      </p>
       <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
 
-      <h2>Form Section 2</h2>
       <CorrectionForm bind:correctionFormData />
 
       <button id="form-submit-button" on:click={handleSubmit}>Submit</button>
@@ -111,15 +114,13 @@
   {/if}
 {:else}
   <main>
+    <h2 class="title">Générateur des exercices personalisés</h2>
     <p class="warning">choisir un cours et un partie de cours</p>
     <hr />
-    <h2>Form Section 1</h2>
     <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
-
-    <h2>Form Section 2</h2>
     <CorrectionForm bind:correctionFormData />
 
-    <button id="form-submit-button" on:click={handleSubmit}>Submit</button>
+    <button id="form-submit-button" on:click={handleSubmit}>Générer</button>
   </main>
 {/if}
 
