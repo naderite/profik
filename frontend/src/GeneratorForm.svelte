@@ -99,7 +99,7 @@
 
 {#if formFilled}
   {#if !formSubmitted}
-    <main>
+    <main class="main-container">
       <h2 class="title">Générateur des exercices personalisés</h2>
       <p class="indication">
         Cliquer sur les menus pour specifier l'exercice puis cliquer sur
@@ -113,7 +113,7 @@
     </main>
   {/if}
 {:else}
-  <main>
+  <main class="main-container">
     <h2 class="title">Générateur des exercices personalisés</h2>
     <p class="warning">choisir un cours et un partie de cours</p>
     <hr />
@@ -131,3 +131,7 @@
     questions={searchResultData.questions}
   />
 {/if}
+
+<style>
+  @import "./GeneratorForm.css";
+</style>

@@ -3,7 +3,7 @@
   export let questions;
 </script>
 
-<main>
+<main class="main-container">
   <div class="exercise-container">
     <p>Enoncé:</p>
     <p>{exercise.head}</p>
@@ -22,3 +22,7 @@
     {/each}
   </div>
 </main>
+
+<style>
+  @import "./SearchResult.css";
+</style>

@@ -1,0 +1,26 @@
+.exercise-container,
+.questions-container {
+  margin-bottom: 20px;
+}
+
+.exercise-container p,
+.questions-container p {
+  color: var(--text-primary-color);
+  margin: 0;
+  font-weight: bold;
+}
+
+.questions-container p + p {
+  margin-top: 5px;
+}
+
+.question {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.correction {
+  margin-top: 5px;
+  padding-left: 20px;
+  color: #888;
+}

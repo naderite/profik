@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-
   import GeneratorForm from "./GeneratorForm.svelte";
   import ProfilePage from "./ProfilePage.svelte";
   import ResumesPage from "./ResumesPage.svelte";
@@ -26,6 +25,9 @@
 
 <nav>
   <div class="navbar">
+    <div class="logo">
+      <img src="../logo.png" alt="logo" />
+    </div>
     <ul>
       <li class:active={activePage === "Generator"}>
         <a href="/" on:click={() => setActivePage("Generator")}>Generator</a>
@@ -51,3 +53,7 @@
     <ResumesPage />
   {/if}
 </main>
+
+<style>
+  @import "./navBarComponent.css";
+</style>

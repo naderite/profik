@@ -1,0 +1,55 @@
+:root {
+  --font-size: 16px;
+}
+.main-container {
+  background-color: var(--background-color);
+}
+.form-container {
+  display: inline-block;
+  width: 50%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--card-background-color);
+  margin-bottom: 20px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 400;
+  color: var(--text-primary-color);
+}
+
+.form-container select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  font-size: var(--font-size);
+  line-height: 1.5;
+}
+
+.form-container select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.form-container option {
+  font-size: var(--font-size);
+}
+
+.form-container .select-placeholder {
+  font-size: var(--font-size);
+  color: var(--text-secondary-color);
+}
+
+.form-container .select-placeholder:disabled {
+  color: var(--text-secondary-color);
+}
+
+.indication {
+  color: var(--text-primary-color);
+}
