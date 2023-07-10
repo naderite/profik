@@ -1,6 +1,15 @@
 <script>
   export let exercise;
   export let questions;
+  let activeQuestion = null;
+
+  function toggleCorrection(question) {
+    if (activeQuestion === question) {
+      activeQuestion = null;
+    } else {
+      activeQuestion = question;
+    }
+  }
 </script>
 
 <main class="main-container">
@@ -15,7 +24,14 @@
         <p>{question.order}) {question.text}</p>
         {#if question.correction}
           <div class="correction">
-            <p>Correction: {question.correction.text}</p>
+            <div class="correction-dropdown">
+              <button on:click={() => toggleCorrection(question)}>
+                Correction
+              </button>
+              {#if activeQuestion === question}
+                <p>{question.correction.text}</p>
+              {/if}
+            </div>
           </div>
         {/if}
       </div>

@@ -1,13 +1,20 @@
-.exercise-container,
-.questions-container {
+.main-container {
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.exercise-container {
+  background-color: var(--card-background-color);
   margin-bottom: 20px;
 }
 
-.exercise-container p,
-.questions-container p {
+.exercise-container,
+.questions-container {
+  text-align: left;
   color: var(--text-primary-color);
-  margin: 0;
+  margin-top: 5px;
   font-weight: bold;
+  margin-right: 3%;
 }
 
 .questions-container p + p {
@@ -15,12 +22,43 @@
 }
 
 .question {
-  margin-top: 10px;
-  padding-left: 20px;
+  background-color: var(--card-background-color);
+  margin: 10 0px;
 }
 
 .correction {
-  margin-top: 5px;
-  padding-left: 20px;
-  color: #888;
+  background-color: var(--secondary-color);
+  margin-top: 15px;
+  color: var(--text-secondary-color);
+}
+
+.correction-dropdown {
+  background-color: var(--secondary-color);
+  color: var(--text-secondary-color);
+  font-size: var(--font-size);
+  line-height: 1.5;
+  position: relative;
+}
+.correction-dropdown button {
+  cursor: pointer;
+  border: 0;
+  width: 100%;
+  font-weight: bold;
+}
+.correction-text {
+  display: none;
+  color: var(--text-secondary-color);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+.correction-text p {
+  margin: 0;
+  padding: 5px;
+}
+
+.correction-dropdown.selected .correction-text {
+  display: block;
 }

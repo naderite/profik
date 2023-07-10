@@ -105,11 +105,23 @@
         Cliquer sur les menus pour specifier l'exercice puis cliquer sur
         "Générer" pour voir l'exercice
       </p>
-      <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
-
-      <CorrectionForm bind:correctionFormData />
-
-      <button id="form-submit-button" on:click={handleSubmit}>Submit</button>
+      <div class="form-section">
+        <div class="form-column">
+          <ExerciseForm
+            {courseOptions}
+            {coursePartOptions}
+            bind:exerciseFormData
+          />
+        </div>
+        <div class="form-column">
+          <CorrectionForm bind:correctionFormData />
+          <div class="button-container">
+            <button id="form-submit-button" on:click={handleSubmit}
+              >Générer</button
+            >
+          </div>
+        </div>
+      </div>
     </main>
   {/if}
 {:else}
@@ -117,10 +129,23 @@
     <h2 class="title">Générateur des exercices personalisés</h2>
     <p class="warning">choisir un cours et un partie de cours</p>
     <hr />
-    <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
-    <CorrectionForm bind:correctionFormData />
-
-    <button id="form-submit-button" on:click={handleSubmit}>Générer</button>
+    <div class="form-section">
+      <div class="form-column">
+        <ExerciseForm
+          {courseOptions}
+          {coursePartOptions}
+          bind:exerciseFormData
+        />
+      </div>
+      <div class="form-column">
+        <CorrectionForm bind:correctionFormData />
+        <div class="button-container">
+          <button id="form-submit-button" on:click={handleSubmit}
+            >Générer</button
+          >
+        </div>
+      </div>
+    </div>
   </main>
 {/if}
 

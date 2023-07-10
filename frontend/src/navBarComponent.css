@@ -1,6 +1,6 @@
 /* Navbar container */
 .navbar {
-  display: inline-block;
+  display: block;
   position: fixed;
   top: 0;
   left: 0;

@@ -3,8 +3,6 @@
   import NavBarComponent from "./navBarComponent.svelte";
 </script>
 
-<main>
-  <div id="app">
-    <NavBarComponent />
-  </div>
-</main>
+<div id="app">
+  <NavBarComponent />
+</div>
