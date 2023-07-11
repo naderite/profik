@@ -1,6 +1,6 @@
 {% extends "profik/base.html" %} {% block content %}
 <h1>Add Correction</h1>
-<p>Exercise: {{ exercise.id }}</p>
+<p>Exercise: {{ question.exercise.id }}</p>
 {% if messages %}
 {% for message in messages %}
   <div class="alert alert-info">{{ message }}</div>
@@ -9,14 +9,14 @@
 <div>
   {% if num_remaining_combinations > 0 %}
   <h2>Correction Properties:</h2>
-  <form method="post" action="{% url 'add_correction' exercise.id %}">
+  <form method="post" action="{% url 'add_correction' question.id %}">
     {% csrf_token %} 
     <p>Correction text</p> 
     {{ form.text }} <br />
-    {{ form.theoreme.label_tag }} {{ form.theoreme.value }} <br />
-    {{ form.nombre_de_methode.label_tag }} {{ form.nombre_de_methode.value }}
+    {{ form.has_theorem.label_tag }} {{ form.has_theorem.value }} <br />
+    {{ form.has_methods.label_tag }} {{ form.has_methods.value }}
     <br />
-    {{ form.commentaires.label_tag }} {{ form.commentaires.value }} <br />
+    {{ form.comments.label_tag }} {{ form.comments.value }} <br />
 
     {% for field in form.hidden_fields %} {{ field }} {% endfor %}
     {% if form.errors %}
