@@ -3,14 +3,14 @@
   import GeneratorForm from "./GeneratorForm.svelte";
   import ProfilePage from "./ProfilePage.svelte";
   import ResumesPage from "./ResumesPage.svelte";
-  import SeriesPage from "./SeriesPage.svelte";
+  import SeriesSelect from "./SeriesSelect.svelte";
 
   // Define the navigation options
   let navOptions = [
-    { label: "Exercises", component: GeneratorForm },
     { label: "Profile", component: ProfilePage },
+    { label: "Exercises", component: GeneratorForm },
+    { label: "Séries", component: SeriesSelect },
     { label: "Résumes", component: ResumesPage },
-    { label: "Séries", component: SeriesPage },
   ];
 
   // Keep track of the selected page object
