@@ -122,10 +122,12 @@
 {/if}
 
 {#if searchResultData}
-  <SearchResult
-    exercise={searchResultData.exercise}
-    questions={searchResultData.questions}
-  />
+  <main class="main-container">
+    <SearchResult
+      exercise={searchResultData.exercise}
+      questions={searchResultData.questions}
+    />
+  </main>
 {/if}
 
 <style>

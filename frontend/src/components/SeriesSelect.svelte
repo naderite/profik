@@ -47,34 +47,24 @@
   }
 </script>
 
-<main>
-  {#if !buttonClicked}
-    <h2>Series Page</h2>
+{#if !buttonClicked}
+  <main class="main-container">
+    <h2 class="title">Nos séries</h2>
+    <p class="indication">choisir une série</p>
     <div class="course-buttons">
       {#each courses as course}
-        <button on:click={() => handleClick(course)}
-          >serie sur {course.title}</button
-        >
+        <div class="course-button">
+          <button on:click={() => handleClick(course)}
+            >serie sur {course.title}</button
+          >
+        </div>
       {/each}
     </div>
-  {:else}
-    <SeriesPage exercises={exercises["exercises"]} {selectedCourse} />
-  {/if}
-</main>
+  </main>
+{:else}
+  <SeriesPage exercises={exercises["exercises"]} {selectedCourse} />
+{/if}
 
 <style>
-  .course-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  button {
-    padding: 10px;
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  @import "../css/Series.css";
 </style>
