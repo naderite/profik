@@ -25,9 +25,8 @@ class Exercise(models.Model):
     ]
     REASONING_CHOICES = [
         (0, "normal"),
-        (1, "aléatoire"),
-        (2, "récurrence"),
-        (3, "absurd"),
+        (1, "récurrence"),
+        (2, "absurd"),
     ]
     LEVEL_CHOICES = [
         ("bac tech", "Bac technique"),

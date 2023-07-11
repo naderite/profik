@@ -25,9 +25,8 @@ class ExerciseForm(forms.Form):
     ]
     REASONING_CHOICES = [
         (0, "normal"),
-        (1, "aléatoire"),
-        (2, "récurrence"),
-        (3, "absurd"),
+        (1, "récurrence"),
+        (2, "absurd"),
     ]
     head = forms.CharField(widget=forms.Textarea, label="Tête de l'exercice")
     level = forms.ChoiceField(

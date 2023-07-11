@@ -13,18 +13,24 @@
   let searchResultData = null;
   let formSubmitted = false;
   let formFilled = true;
+
   onMount(async () => {
     // Fetch course options from the server
     courseOptions = await fetchCourseOptions();
   });
 
-  // Fetch course part options whenever the course value changes
-  afterUpdate(async () => {
+  $: {
     if (courseSelected && !coursePartsFetched) {
-      coursePartOptions = await fetchCoursePartOptions();
-      coursePartsFetched = true;
+      fetchCoursePartOptions()
+        .then((data) => {
+          coursePartOptions = data;
+          coursePartsFetched = true;
+        })
+        .catch((error) => {
+          console.error("Error while fetching course part options:", error);
+        });
     }
-  });
+  }
 
   async function fetchCourseOptions() {
     try {
@@ -50,16 +56,13 @@
   }
 
   async function handleSubmit() {
-    // Check if exerciseFormData is filled
-    if (!exerciseFormData.course || !exerciseFormData.coursePart) {
-      formFilled = false;
-      console.log("form not filled yet");
+    formFilled = !!exerciseFormData.course && !!exerciseFormData.coursePart;
+    if (!formFilled) {
+      console.log("Form not filled yet");
       return;
     }
 
     try {
-      formFilled = true;
-      // Construct the query parameters
       const queryParams = new URLSearchParams();
       queryParams.append("coursePart", exerciseFormData.coursePart);
       queryParams.append("length", exerciseFormData.length);
@@ -69,7 +72,6 @@
       queryParams.append("hasMethods", correctionFormData.hasMethods);
       queryParams.append("comments", correctionFormData.comments);
 
-      // Send the request to the API
       const response = await fetch(
         `http://localhost:8000/api/submit/?${queryParams}`,
         {
@@ -80,16 +82,11 @@
         }
       );
 
-      // Handle the response from the API
       const data = await response.json();
-
-      // Set the searchResultData to update the SearchResult component
       const exercise = data.exercise.exercise;
       const questions = data.exercise.questions || [];
 
       searchResultData = { exercise, questions };
-
-      // Set formSubmitted to true to hide the generator form
       formSubmitted = true;
     } catch (error) {
       console.error("Error while submitting the form:", error);
@@ -97,38 +94,13 @@
   }
 </script>
 
-{#if formFilled}
-  {#if !formSubmitted}
-    <main class="main-container">
-      <h2 class="title">Générateur des exercices personalisés</h2>
-      <p class="indication">
-        Cliquer sur les menus pour specifier l'exercice puis cliquer sur
-        "Générer" pour voir l'exercice
-      </p>
-      <div class="form-section">
-        <div class="form-column">
-          <ExerciseForm
-            {courseOptions}
-            {coursePartOptions}
-            bind:exerciseFormData
-          />
-        </div>
-        <div class="form-column">
-          <CorrectionForm bind:correctionFormData />
-          <div class="button-container">
-            <button id="form-submit-button" on:click={handleSubmit}
-              >Générer</button
-            >
-          </div>
-        </div>
-      </div>
-    </main>
-  {/if}
-{:else}
+{#if !formSubmitted}
   <main class="main-container">
-    <h2 class="title">Générateur des exercices personalisés</h2>
-    <p class="warning">choisir un cours et un partie de cours</p>
-    <hr />
+    <h2 class="title">Générateur des exercices personnalisés</h2>
+    {#if !formFilled}
+      <p class="warning">Choisir un cours et une partie de cours</p>
+      <hr />
+    {/if}
     <div class="form-section">
       <div class="form-column">
         <ExerciseForm
@@ -149,7 +121,6 @@
   </main>
 {/if}
 
-<!-- Pass searchResultData to the SearchResult component -->
 {#if searchResultData}
   <SearchResult
     exercise={searchResultData.exercise}
@@ -158,5 +129,5 @@
 {/if}
 
 <style>
-  @import "./GeneratorForm.css";
+  @import "../css/GeneratorForm.css";
 </style>

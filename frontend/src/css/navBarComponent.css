@@ -23,9 +23,10 @@
   margin-bottom: 10px;
 }
 
-.navbar a {
+.navbar button {
   display: block;
   text-decoration: none;
+  background-color: transparent;
   color: rgba(255, 255, 255, 0.7);
   padding: 10px;
   border-radius: 4px;

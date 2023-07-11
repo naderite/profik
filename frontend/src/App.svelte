@@ -1,8 +1,9 @@
 <script>
-  import GeneratorForm from "./GeneratorForm.svelte";
-  import NavBarComponent from "./navBarComponent.svelte";
+  import NavBarComponent from "./components/NavBarComponent.svelte";
 </script>
 
+<NavBarComponent />
+
 <div id="app">
-  <NavBarComponent />
+  <!-- Your app content goes here -->
 </div>

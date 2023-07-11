@@ -10,6 +10,7 @@
   let length = 0;
   let reasoning = 0;
   let difficulty = 0;
+
   const levelChoices = [
     { value: "bac tech", label: "Bac technique" },
     { value: "bac SC", label: "Bac science" },
@@ -27,25 +28,23 @@
     { value: 1, label: "moyen" },
     { value: 2, label: "difficile" },
   ];
+
   const reasoningChoices = [
     { value: 0, label: "normal" },
-    { value: 1, label: "aléatoire" },
-    { value: 2, label: "récurrence" },
-    { value: 3, label: "absurd" },
+    { value: 1, label: "récurrence" },
+    { value: 2, label: "absurd" },
+    { value: 3, label: "aléatoire" },
   ];
 
   function filterCourseParts(courseParts, courseId) {
-    if (!courseId) {
-      // If courseId is not provided, return an empty array
-      return [];
-    }
-
-    // Filter course parts based on the courseId
-    return courseParts.filter((part) => part.course === courseId);
+    return courseId
+      ? courseParts.filter((part) => part.course === courseId)
+      : [];
   }
 
   export let exerciseFormData;
-  afterUpdate(async () => {
+
+  afterUpdate(() => {
     exerciseFormData = {
       level,
       course,
@@ -84,7 +83,7 @@
           <option value={option.id}>{option.title}</option>
         {/each}
       {:else}
-        <option value={null}>Select a course first</option>
+        <option value={null}>Selectionner un cours avant</option>
       {/if}
     </select>
   </label>
@@ -108,7 +107,7 @@
   </label>
 
   <label>
-    Difficulté de l'exercice:
+    La difficulté de l'exercice:
     <select bind:value={difficulty}>
       {#each difficultyChoices as choice}
         <option value={choice.value}>{choice.label}</option>

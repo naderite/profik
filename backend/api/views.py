@@ -44,13 +44,22 @@ class SearchExercise(View):
         comments = request.GET.get("comments")
 
         # Filter the exercises based on the provided filters
-        exercises = Exercise.objects.filter(
-            course_part=course_part,
-            length=length,
-            reasoning=reasoning,
-            difficulty=difficulty,
-        )
+        # if the reasoning is set to random don't include in the filter
+        if reasoning == "3":
+            exercises = Exercise.objects.filter(
+                course_part=course_part,
+                length=length,
+                difficulty=difficulty,
+            )
+            print(exercises)
 
+        else:
+            exercises = Exercise.objects.filter(
+                course_part=course_part,
+                length=length,
+                reasoning=reasoning,
+                difficulty=difficulty,
+            )
         if exercises.exists():
             # Get a random exercise from the filtered exercises
             exercise = random.choice(exercises)

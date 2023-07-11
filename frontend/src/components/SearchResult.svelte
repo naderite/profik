@@ -10,6 +10,7 @@
       activeQuestion = question;
     }
   }
+  console.log(questions);
 </script>
 
 <main class="main-container">
@@ -40,5 +41,5 @@
 </main>
 
 <style>
-  @import "./SearchResult.css";
+  @import "../css/SearchResult.css";
 </style>

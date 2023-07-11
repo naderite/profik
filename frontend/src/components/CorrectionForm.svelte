@@ -1,6 +1,4 @@
 <script>
-  import { afterUpdate } from "svelte";
-
   let hasTheorem = true;
   let hasMethods = true;
   let comments = 0;
@@ -21,21 +19,17 @@
     { value: 2, label: "très explicatif" },
   ];
 
-  export let correctionFormData;
-
-  afterUpdate(async () => {
-    correctionFormData = {
-      hasMethods,
-      hasTheorem,
-      comments,
-    };
-  });
+  export let correctionFormData = {
+    hasMethods,
+    hasTheorem,
+    comments,
+  };
 </script>
 
 <div class="form-container">
   <label>
     Théorème
-    <select bind:value={hasTheorem}>
+    <select bind:value={correctionFormData.hasTheorem}>
       {#each THEOREM_CHOICES as choice}
         <option value={choice.value}>{choice.label}</option>
       {/each}
@@ -44,7 +38,7 @@
 
   <label>
     Nombre de méthodes
-    <select bind:value={hasMethods}>
+    <select bind:value={correctionFormData.hasMethods}>
       {#each METHODS_CHOICES as choice}
         <option value={choice.value}>{choice.label}</option>
       {/each}
@@ -53,7 +47,7 @@
 
   <label>
     Commentaires
-    <select bind:value={comments}>
+    <select bind:value={correctionFormData.comments}>
       {#each COMMENT_CHOICES as choice}
         <option value={choice.value}>{choice.label}</option>
       {/each}
