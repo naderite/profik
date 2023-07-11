@@ -10,7 +10,6 @@
       activeQuestion = question;
     }
   }
-  console.log(questions);
 </script>
 
 <main class="main-container">

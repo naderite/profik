@@ -34,6 +34,7 @@ class Exercise(models.Model):
         ("bac math", "Bac math"),
     ]
     level = models.CharField(max_length=512, default="bac", choices=LEVEL_CHOICES)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, default=10)
     course_part = models.ForeignKey(CoursePart, on_delete=models.CASCADE, default=1)
     length = models.PositiveSmallIntegerField(choices=LENGTH_CHOICES)
     reasoning = models.PositiveBigIntegerField(choices=REASONING_CHOICES)

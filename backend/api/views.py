@@ -51,7 +51,6 @@ class SearchExercise(View):
                 length=length,
                 difficulty=difficulty,
             )
-            print(exercises)
 
         else:
             exercises = Exercise.objects.filter(
@@ -85,6 +84,53 @@ class SearchExercise(View):
                 has_methods=has_methods,
                 has_theorem=has_theorem,
                 comments=comments,
+            ).first():
+                correction_data = CorrectionSerializer(correction).data
+            else:
+                correction_data = None
+
+            question_data = QuestionSerializer(question).data
+            question_data["correction"] = correction_data
+            exercise_data["questions"].append(question_data)
+
+        return exercise_data
+
+
+class ExerciseAPIView(APIView):
+    def get(self, request):
+        exercises = Exercise.objects.all()
+        serializer = ExerciseSerializer(exercises, many=True)
+        print(serializer.data)
+        return Response(serializer.data)
+
+    def post(self, request):
+        course_id = request.data.get("course_id")
+        exercises = Exercise.objects.filter(course_id=course_id)
+        if exercises.exists():
+            exercises_list = []
+            for exercise in exercises:
+                # Get a random exercise from the filtered exercises
+                exercise_data = self.extract_exercise_data(exercise)
+                # Return the exercise data as JSON response
+                exercises_list.append(exercise_data)
+            return JsonResponse({"exercises": exercises_list})
+        else:
+            # Handle the case when no exercises are found
+            return JsonResponse({"error": "No exercises found"})
+
+    def extract_exercise_data(self, exercise):
+        questions = exercise.question_set.all()
+        exercise_data = {
+            "exercise": ExerciseSerializer(exercise).data,
+            "questions": [],
+        }
+
+        for question in questions:
+            if correction := Correction.objects.filter(
+                question=question,
+                has_methods=True,
+                has_theorem=True,
+                comments=2,
             ).first():
                 correction_data = CorrectionSerializer(correction).data
             else:
