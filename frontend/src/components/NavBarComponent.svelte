@@ -7,12 +7,11 @@
 
   // Define the navigation options
   let navOptions = [
-    { label: "Profile", component: ProfilePage },
-    { label: "Exercises", component: GeneratorForm },
-    { label: "Séries", component: SeriesSelect },
-    { label: "Résumes", component: ResumesPage },
+    { label: "Profile", component: ProfilePage, icon: "account_circle" },
+    { label: "Exercises", component: GeneratorForm, icon: "function" },
+    { label: "Séries", component: SeriesSelect, icon: "library_books" },
+    { label: "Résumes", component: ResumesPage, icon: "book" },
   ];
-
   // Keep track of the selected page object
   let selected = navOptions[0];
 
@@ -28,13 +27,16 @@
       <img src="logo.png" alt="logo" />
     </div>
     <ul class="nav nav-tabs">
-      {#each navOptions as option, i}
+      {#each navOptions as option, index}
         <li class="nav-item">
           <button
             class={selected === option ? "nav-link active" : "nav-link"}
             on:click={changeComponent}
-            id={i}
+            id={index}
           >
+            <i class="logo material-symbols-outlined">
+              {option.icon}
+            </i>
             {option.label}
           </button>
         </li>
