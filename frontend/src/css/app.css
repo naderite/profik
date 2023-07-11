@@ -1,0 +1,92 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 20px;
+  /*colors variables */
+  --primary-color: #c517f9;
+  --secondary-color: #ef767a;
+  --text-primary-color: #5c5c5c;
+  --text-secondary-color: white;
+  --card-background-color: white;
+  --background-color: #f7f7f7;
+  color-scheme: light;
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+.main-container {
+  margin-left: 20%;
+  display: inline-block;
+  width: 80%;
+  background-color: var(--background-color);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.title {
+  margin-top: auto;
+  display: block;
+  place-items: center;
+  color: var(--primary-color);
+  font-size: 2.2em;
+  line-height: 1.1;
+}
+
+.warning {
+  color: red;
+}
+.card {
+  padding: 2em;
+}
+
+#app {
+  display: inline-block;
+  width: 100%;
+  margin: 20%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+button {
+  color: var(--text-secondary-color);
+  display: block;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+  background-color: aqua;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

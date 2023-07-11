@@ -1,46 +1,66 @@
 import os
 import django
 
-# Configure Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'profik.settings')
 django.setup()
+import itertools
 
-from profikapp.models import Exercice, Correction
+from profikapp.models import Course, CoursePart, Exercise, Question, Correction
 
-# Get the latest Exercice ID from the database
-latest_exercice_id = Exercice.objects.last().ex_id if Exercice.objects.exists() else 0
+# Define the choices for Exercise fields
+LENGTH_CHOICES = [
+    0, 1, 2,
+]
+DIFFICULTY_CHOICES = [
+    0, 1, 2,
+]
+LEVEL_CHOICES = [
+    'bac math',
+    'bac tech',
+]
 
-# Create examples for Exercice
-exercice_examples = []
-for i in range(100):
-    exercice = Exercice(
-        cours='Mathematics',
-        partie_de_cours='Algebra',
-        longueur=i % 3,
-        but='Solve equations',
-        ex_id=latest_exercice_id + i + 1,  # Increment the ID by 1 for each new exercice
-        text=f'This is the text for Exercice {i}',
-        difficulte=i % 3,
+COMMENT_CHOICES = [
+    0, 1, 2,
+]
+
+# Create courses and course parts
+course = Course.objects.create(course_title='limite et continuite')
+course_part = CoursePart.objects.create(course=course, part_title='limite')
+course_part = CoursePart.objects.create(course=course, part_title='continuite')
+
+# Generate all combinations of choices
+exercise_combinations = list(itertools.product(LENGTH_CHOICES, DIFFICULTY_CHOICES, LEVEL_CHOICES))
+correction_combinations = list(itertools.product([True, False], COMMENT_CHOICES, [True, False]))
+
+# Create exercises, questions, and corrections for each combination
+for exercise_combination in exercise_combinations:
+    length, difficulty, level = exercise_combination
+
+    # Create exercise
+    exercise = Exercise.objects.create(
+        length=length,
+        difficulty=difficulty,
+        level=level,
+        course_part=course_part,
+        goal=f"Goal for {length}-{difficulty}-{level}",
+        heading=f"Heading for {length}-{difficulty}-{level}"
     )
-    exercice_examples.append(exercice)
 
-# Save the Exercice examples in a batch
-Exercice.objects.bulk_create(exercice_examples)
+    # Create questions for exercise
+    for i in range(3):  # Create 3 questions for each exercise
+        question = Question.objects.create(
+            exercise=exercise,
+            order=str(i),
+            text=f"Question {i} for exercise {exercise.id}"
+        )
 
-# Get the latest Correction ID from the database
-latest_correction_id = Correction.objects.last().id if Correction.objects.exists() else 0
-
-# Create examples for Correction
-correction_examples = []
-for i in range(1, 301):
-    correction = Correction(
-        ex_id=(latest_correction_id // 3) + 1,  # Not necessarily unique, incrementing by 1
-        nombre_de_methode=i % 2 == 0,  # True if i is even, False if i is odd
-        commentaires=i % 3,  # minimum, moyen, trés explicatif (repeating pattern)
-        theoreme=i % 2 == 0,  # True if i is even, False if i is odd
-        text=f'This is the text for Correction {i}'  # Add the text field value
-    )
-    correction_examples.append(correction)
-
-# Save the Correction examples in a batch
-Correction.objects.bulk_create(correction_examples)
+        # Create corrections for question
+        for correction_combination in correction_combinations:
+            has_theorem, comments, has_methods = correction_combination
+            correction = Correction.objects.create(
+                has_methods=has_methods,
+                comments=comments,
+                has_theorem=has_theorem,
+                question=question,
+                text=f"Correction for question {question.id}, has_theorem={has_theorem}, comments={comments}, has_methods={has_methods}"
+            )

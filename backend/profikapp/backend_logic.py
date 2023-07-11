@@ -1,7 +1,7 @@
 from .models import Exercise, Correction, Question
 import random
 import itertools
-from .forms import CorrectionForm
+from .forms import CorrectionForm, ExerciseForm
 
 
 def _find_exercise(exercise_length, exercise_course_part, exercise_goal, exercise_difficulty):
@@ -41,16 +41,19 @@ def _search_exercise(request):
 
     Returns a randomly selected exercise matching the query parameters, or None if no exercise is found.
     """
-    exercise_length = request.GET.get('length')
-    exercise_course_part = request.GET.get('course_part')
-    exercise_goal = request.GET.get('goal')
-    exercise_difficulty = request.GET.get('difficulty')
-    return _find_exercise(
-        exercise_length,
-        exercise_course_part,
-        exercise_goal,
-        exercise_difficulty,
-    )
+    exercise_form = ExerciseForm(request.GET or None)
+    if exercise_form.is_valid():
+        exercise_length = exercise_form.cleaned_data['length']
+        exercise_course_part = exercise_form.cleaned_data['course_part']
+        exercise_goal = exercise_form.cleaned_data['goal']
+        exercise_difficulty = exercise_form.cleaned_data['difficulty']
+        return _find_exercise(
+            exercise_length,
+            exercise_course_part,
+            exercise_goal,
+            exercise_difficulty,
+        )
+    return None
 
 
 def _search_correction(question_id, request):
@@ -59,18 +62,19 @@ def _search_correction(question_id, request):
 
     Returns a randomly selected correction matching the query parameters, or None if no correction is found.
     """
-    correction_theorem = bool(request.GET.get('theorem'))
-    correction_course = request.GET.get('course')
-    correction_has_methods = bool(request.GET.get('has_methods'))
-    correction_comments = request.GET.get('comments')
-    question = Question.objects.get(id=question_id)
-    return _find_correction(
-        correction_theorem,
-        correction_course,
-        correction_has_methods,
-        correction_comments,
-        question,
-    )
+    correction_form = CorrectionForm(request.GET or None)
+    if correction_form.is_valid():
+        correction_theorem = correction_form.cleaned_data['theorem']
+        correction_has_methods = correction_form.cleaned_data['has_methods']
+        correction_comments = correction_form.cleaned_data['comments']
+        question = Question.objects.get(id=question_id)
+        return _find_correction(
+            correction_theorem,
+            correction_has_methods,
+            correction_comments,
+            question,
+        )
+    return None
 
 
 def _extract_exercise_data_from_form(form):
@@ -79,12 +83,13 @@ def _extract_exercise_data_from_form(form):
 
     Returns a tuple containing the extracted exercise data.
     """
+    exercise_head = form.cleaned_data['head']
     exercise_level = form.cleaned_data['level']
     exercise_course_part = form.cleaned_data['course_part']
     exercise_length = form.cleaned_data['length']
     exercise_goal = form.cleaned_data['goal']
     exercise_difficulty = form.cleaned_data['difficulty']
-    return exercise_level, exercise_course_part, exercise_length, exercise_goal, exercise_difficulty
+    return exercise_level, exercise_course_part, exercise_length, exercise_goal, exercise_difficulty, exercise_head
 
 
 def _fill_exercise_data(exercise, exercise_data):
@@ -98,6 +103,7 @@ def _fill_exercise_data(exercise, exercise_data):
     exercise.length = exercise_data[2]
     exercise.goal = exercise_data[3]
     exercise.difficulty = exercise_data[4]
+    exercise.head = exercise_data[5]
 
 
 def _generate_combinations():
