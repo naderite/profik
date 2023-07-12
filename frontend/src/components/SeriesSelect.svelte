@@ -62,7 +62,3 @@
 {:else}
   <SeriesPage exercises={exercises["exercises"]} {selectedCourse} />
 {/if}
-
-<style>
-  @import "../css/Series.css";
-</style>

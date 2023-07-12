@@ -48,7 +48,3 @@
 <main>
   <svelte:component this={selected.component} />
 </main>
-
-<style>
-  @import "../css/app.css";
-</style>

@@ -146,13 +146,8 @@
     />
   </main>
 {/if}
-{console.log(showErrorPopup)}
 {#if showErrorPopup}
   <Modal on:click={toggleModal} {modalContent}
     ><svelte:component this={modalContent} /></Modal
   >
 {/if}
-
-<style>
-  @import "../css/GeneratorForm.css";
-</style>

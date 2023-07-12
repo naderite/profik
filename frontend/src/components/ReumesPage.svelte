@@ -33,10 +33,6 @@
 </script>
 
 <svelte:head>
-  <script type="text/javascript">
-    MathJax = { tex: { debug: true } };
-  </script>
-
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script
     id="MathJax-script"
@@ -48,7 +44,3 @@
   <h1 class="title">{selectedCourse.title}</h1>
   {@html selectedCourse.resume}
 </main>
-
-<style>
-  @import "../css/app.css";
-</style>

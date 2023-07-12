@@ -73,7 +73,3 @@
     </div>
   {/each}
 </div>
-
-<style>
-  @import "../css/app.css";
-</style>
