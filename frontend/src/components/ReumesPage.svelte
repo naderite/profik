@@ -1,18 +1,8 @@
 <script>
+  export let selectedCourse;
   import { onDestroy, onMount } from "svelte";
-  export let exercise;
-  export let questions;
-  let activeQuestion = null;
+
   let mathJaxLoaded = null;
-
-  function toggleCorrection(question) {
-    if (activeQuestion === question) {
-      activeQuestion = null;
-    } else {
-      activeQuestion = question;
-    }
-  }
-
   function loadMathJax() {
     if (!mathJaxLoaded) {
       mathJaxLoaded = new Promise((resolve, reject) => {
@@ -43,36 +33,21 @@
 </script>
 
 <svelte:head>
+  <script type="text/javascript">
+    MathJax = { tex: { debug: true } };
+  </script>
+
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script
     id="MathJax-script"
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
   ></script>
 </svelte:head>
-<div class="exercise-container">
-  <p>Enoncé:</p>
-  <p>{exercise.head}</p>
-</div>
 
-<div class="questions-container">
-  {#each questions as question}
-    <div class="question">
-      <p>{question.order}) {question.text}</p>
-      {#if question.correction}
-        <div class="correction">
-          <div class="correction-dropdown">
-            <button on:click={() => toggleCorrection(question)}>
-              Correction
-            </button>
-            {#if activeQuestion === question}
-              <p>{question.correction.text}</p>
-            {/if}
-          </div>
-        </div>
-      {/if}
-    </div>
-  {/each}
-</div>
+<main class="main-container">
+  <h1 class="title">{selectedCourse.title}</h1>
+  {@html selectedCourse.resume}
+</main>
 
 <style>
   @import "../css/app.css";

@@ -2,7 +2,7 @@
 <script>
   import GeneratorForm from "./GeneratorForm.svelte";
   import ProfilePage from "./ProfilePage.svelte";
-  import ResumesPage from "./ResumesPage.svelte";
+  import ResumesPage from "./ResumesSelect.svelte";
   import SeriesSelect from "./SeriesSelect.svelte";
 
   // Define the navigation options
@@ -50,5 +50,5 @@
 </main>
 
 <style>
-  @import "../css/navBarComponent.css";
+  @import "../css/app.css";
 </style>
