@@ -1,9 +1,20 @@
 <script>
-  import { onMount, afterUpdate } from "svelte";
+  import { onMount } from "svelte";
   import ExerciseForm from "./ExerciseForm.svelte";
   import CorrectionForm from "./CorrectionForm.svelte";
   import SearchResult from "./SearchResult.svelte";
+  import ExerciseNotFoundPopup from "./ExerciseNotFoundPopup.svelte";
+  import Modal from "./Modal.svelte";
+  // initialise modal state and content
+  let modalContent = ExerciseNotFoundPopup;
 
+  // pass in component as parameter and toggle modal state
+  function toggleModal() {
+    modalContent = ExerciseNotFoundPopup;
+    showErrorPopup = !showErrorPopup;
+  }
+
+  let showErrorPopup = false;
   let courseOptions = [];
   let coursePartOptions = [];
   let courseSelected = false;
@@ -83,13 +94,19 @@
       );
 
       const data = await response.json();
-      const exercise = data.exercise.exercise;
-      const questions = data.exercise.questions || [];
+      if (data.error) {
+        showErrorPopup = true;
+        console.error("Invalid response data structure:", data);
+      } else {
+        const exercise = data.exercise.exercise;
+        const questions = data.exercise.questions || [];
 
-      searchResultData = { exercise, questions };
-      formSubmitted = true;
+        searchResultData = { exercise, questions };
+        formSubmitted = true;
+      }
     } catch (error) {
       console.error("Error while submitting the form:", error);
+      showErrorPopup = true;
     }
   }
 </script>
@@ -128,6 +145,12 @@
       questions={searchResultData.questions}
     />
   </main>
+{/if}
+{console.log(showErrorPopup)}
+{#if showErrorPopup}
+  <Modal on:click={toggleModal} {modalContent}
+    ><svelte:component this={modalContent} /></Modal
+  >
 {/if}
 
 <style>

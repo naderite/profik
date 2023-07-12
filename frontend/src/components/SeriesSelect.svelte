@@ -37,8 +37,6 @@
 
       const data = await response.json();
       exercises = data;
-      console.log(exercises);
-      console.log(typeof exercises);
       buttonClicked = true;
       // Handle the received data as needed
     } catch (error) {
