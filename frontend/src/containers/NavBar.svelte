@@ -1,9 +1,9 @@
-<!-- NavBarComponent.svelte -->
 <script>
-  import GeneratorForm from "./GeneratorForm.svelte";
-  import ProfilePage from "./ProfilePage.svelte";
-  import ResumesPage from "./ResumesSelect.svelte";
-  import SeriesSelect from "./SeriesSelect.svelte";
+  import GeneratorForm from "../components/GeneratorForm.svelte";
+  import Navlink from "../components/NavBar/Navlink.svelte";
+  import ProfilePage from "../components/ProfilePage.svelte";
+  import ResumesPage from "../components/ResumesSelect.svelte";
+  import SeriesSelect from "../components/SeriesSelect.svelte";
 
   // Define the navigation options
   let navOptions = [
@@ -28,17 +28,8 @@
     </div>
     <ul class="nav nav-tabs">
       {#each navOptions as option, index}
-        <li class="nav-item">
-          <button
-            class={selected === option ? "nav-link active" : "nav-link"}
-            on:click={changeComponent}
-            id={index}
-          >
-            <i class="logo material-symbols-outlined">
-              {option.icon}
-            </i>
-            {option.label}
-          </button>
+        <li>
+          <Navlink {option} {selected} {changeComponent} {index} />
         </li>
       {/each}
     </ul>

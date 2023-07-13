@@ -1,9 +1,9 @@
 <script>
   import "./app.css";
-  import NavBarComponent from "./components/NavBarComponent.svelte";
+  import NavBar from "./containers/NavBar.svelte";
 </script>
 
-<NavBarComponent />
+<NavBar />
 
 <div id="app">
   <!-- Your app content goes here -->
