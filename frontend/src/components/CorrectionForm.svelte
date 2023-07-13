@@ -1,19 +1,21 @@
 <script>
+  import Dropdown from "./common/Dropdown.svelte";
+
   let hasTheorem = true;
   let hasMethods = true;
   let comments = 0;
 
-  const THEOREM_CHOICES = [
+  const theoremChoices = [
     { value: true, label: "inclus" },
     { value: false, label: "non inclus" },
   ];
 
-  const METHODS_CHOICES = [
+  const methodsChoices = [
     { value: false, label: "Unique" },
     { value: true, label: "Multiple" },
   ];
 
-  const COMMENT_CHOICES = [
+  const commentsChoices = [
     { value: 0, label: "minimum" },
     { value: 1, label: "moyen" },
     { value: 2, label: "très explicatif" },
@@ -27,30 +29,19 @@
 </script>
 
 <div class="form-container">
-  <label>
-    Théorème
-    <select bind:value={correctionFormData.hasTheorem}>
-      {#each THEOREM_CHOICES as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
-
-  <label>
-    Nombre de méthodes
-    <select bind:value={correctionFormData.hasMethods}>
-      {#each METHODS_CHOICES as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
-
-  <label>
-    Commentaires
-    <select bind:value={correctionFormData.comments}>
-      {#each COMMENT_CHOICES as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
+  <Dropdown
+    label="Théorème:"
+    options={theoremChoices}
+    bind:value={correctionFormData.hasTheorem}
+  />
+  <Dropdown
+    label="Nombre de méthodes:"
+    options={methodsChoices}
+    bind:value={correctionFormData.hasMethods}
+  />
+  <Dropdown
+    label="Commentaires"
+    options={commentsChoices}
+    bind:value={correctionFormData.comments}
+  />
 </div>

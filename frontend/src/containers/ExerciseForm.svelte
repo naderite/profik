@@ -1,5 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
+  import Dropdown from "../components/common/Dropdown.svelte";
 
   export let courseOptions;
   export let coursePartOptions;
@@ -57,15 +58,12 @@
 </script>
 
 <div class="form-container">
-  <label>
-    la Difficulté de l'exercice:
-    <select bind:value={level}>
-      {#each levelChoices as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
-
+  <Dropdown
+    label="la Difficulté de l'exercice:"
+    options={levelChoices}
+    bind:value={level}
+  />
+  <!--refused to work with dropdown component-->
   <label>
     Le cours:
     <select bind:value={course}>
@@ -74,7 +72,7 @@
       {/each}
     </select>
   </label>
-
+  <!--refused to work with dropdown component-->
   <label>
     La partie de cours:
     <select bind:value={coursePart}>
@@ -88,30 +86,17 @@
     </select>
   </label>
 
-  <label>
-    La longueur:
-    <select bind:value={length}>
-      {#each lengthChoices as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
+  <Dropdown label="La longueur:" options={lengthChoices} bind:value={length} />
 
-  <label>
-    Le raisonnement:
-    <select bind:value={reasoning}>
-      {#each reasoningChoices as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
+  <Dropdown
+    label="Le raisonnement:"
+    options={reasoningChoices}
+    bind:value={reasoning}
+  />
 
-  <label>
-    La difficulté de l'exercice:
-    <select bind:value={difficulty}>
-      {#each difficultyChoices as choice}
-        <option value={choice.value}>{choice.label}</option>
-      {/each}
-    </select>
-  </label>
+  <Dropdown
+    label="La difficulté de l'exercice:"
+    options={difficultyChoices}
+    bind:value={difficulty}
+  />
 </div>

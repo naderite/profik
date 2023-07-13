@@ -1,6 +1,6 @@
 <script>
-  import { onMount } from "svelte";
-  import ExerciseForm from "./ExerciseForm.svelte";
+  import { afterUpdate, onMount } from "svelte";
+  import ExerciseForm from "../containers/ExerciseForm.svelte";
   import CorrectionForm from "./CorrectionForm.svelte";
   import SearchResult from "./SearchResult.svelte";
   import ExerciseNotFoundPopup from "./ExerciseNotFoundPopup.svelte";
@@ -75,6 +75,7 @@
 
     try {
       const queryParams = new URLSearchParams();
+      queryParams.append("level", exerciseFormData.level);
       queryParams.append("coursePart", exerciseFormData.coursePart);
       queryParams.append("length", exerciseFormData.length);
       queryParams.append("reasoning", exerciseFormData.reasoning);
