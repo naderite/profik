@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
-  import Dropdown from "../components/common/Dropdown.svelte";
+  import DropdownComponent from "../common/Dropdown.svelte";
 
   export let courseOptions;
   export let coursePartOptions;
@@ -58,7 +58,7 @@
 </script>
 
 <div class="form-container">
-  <Dropdown
+  <DropdownComponent
     label="la Difficulté de l'exercice:"
     options={levelChoices}
     bind:value={level}
@@ -86,15 +86,19 @@
     </select>
   </label>
 
-  <Dropdown label="La longueur:" options={lengthChoices} bind:value={length} />
+  <DropdownComponent
+    label="La longueur:"
+    options={lengthChoices}
+    bind:value={length}
+  />
 
-  <Dropdown
+  <DropdownComponent
     label="Le raisonnement:"
     options={reasoningChoices}
     bind:value={reasoning}
   />
 
-  <Dropdown
+  <DropdownComponent
     label="La difficulté de l'exercice:"
     options={difficultyChoices}
     bind:value={difficulty}

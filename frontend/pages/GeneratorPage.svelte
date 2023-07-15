@@ -1,16 +1,19 @@
 <script>
-  import { afterUpdate, onMount } from "svelte";
-  import ExerciseForm from "../containers/ExerciseForm.svelte";
-  import CorrectionForm from "./CorrectionForm.svelte";
-  import SearchResult from "./SearchResult.svelte";
-  import ExerciseNotFoundPopup from "./ExerciseNotFoundPopup.svelte";
-  import Modal from "./Modal.svelte";
+  import { onMount } from "svelte";
+  import ExerciseForm from "../src/components/generator-form/ExerciseForm.svelte";
+  import CorrectionForm from "../src/components/generator-form/CorrectionForm.svelte";
+  import ExerciseComponent from "../src/components/Exercise/Exercise.svelte";
+  import ExerciseNotFoundPopup from "../src/components/generator-form/ExerciseNotFound.svelte";
+  import PopupComponent from "../src/components/common/Popup.svelte";
+  import WarningComponent from "../src/components/common/Warning.svelte";
+  import ButtonComponent from "../src/components/common/Button.svelte";
+  import PageHeadComponent from "../src/components/common/PageHead.svelte";
   // initialise modal state and content
-  let modalContent = ExerciseNotFoundPopup;
+  let errorComponent = ExerciseNotFoundPopup;
 
   // pass in component as parameter and toggle modal state
-  function toggleModal() {
-    modalContent = ExerciseNotFoundPopup;
+  function showPopup() {
+    errorComponent = ExerciseNotFoundPopup;
     showErrorPopup = !showErrorPopup;
   }
 
@@ -114,9 +117,14 @@
 
 {#if !formSubmitted}
   <main class="main-container">
-    <h2 class="title">Générateur des exercices personnalisés</h2>
+    <PageHeadComponent
+      title="Génerateur des exercices"
+      indication="Cliquer sur les menus pour specifier l'exercice puis cliquer sur le button Génerer pour voir l'exercice"
+    />
     {#if !formFilled}
-      <p class="warning">Choisir un cours et une partie de cours</p>
+      <WarningComponent
+        warningMessage="Choisir un cours et une partie de cours"
+      />
       <hr />
     {/if}
     <div class="form-section">
@@ -129,11 +137,7 @@
       </div>
       <div class="form-column">
         <CorrectionForm bind:correctionFormData />
-        <div class="button-container">
-          <button id="form-submit-button" on:click={handleSubmit}
-            >Générer</button
-          >
-        </div>
+        <ButtonComponent handleClick={handleSubmit} buttonText="Génerer" />
       </div>
     </div>
   </main>
@@ -141,14 +145,12 @@
 
 {#if searchResultData}
   <main class="main-container">
-    <SearchResult
+    <ExerciseComponent
       exercise={searchResultData.exercise}
       questions={searchResultData.questions}
     />
   </main>
 {/if}
 {#if showErrorPopup}
-  <Modal on:click={toggleModal} {modalContent}
-    ><svelte:component this={modalContent} /></Modal
-  >
+  <PopupComponent on:click={showPopup} messageComponent={errorComponent} />
 {/if}

@@ -1,14 +1,19 @@
 <script>
   import { onMount } from "svelte";
-  import SeriesPage from "./SeriesPage.svelte";
+  import SerieContainer from "../src/components/containers/Serie.svelte";
+  import ButtonComponent from "../src/components/common/Button.svelte";
+  import PageHeadComponent from "../src/components/common/PageHead.svelte";
+
   export let courses = [];
   export let exercises = [];
   let selectedCourse = null;
   let buttonClicked = false;
+
   onMount(async () => {
     // Fetch course options from the server
     courses = await fetchCourses();
   });
+
   async function fetchCourses() {
     try {
       const response = await fetch("http://localhost:8000/api/courses/");
@@ -47,18 +52,16 @@
 
 {#if !buttonClicked}
   <main class="main-container">
-    <h2 class="title">Nos séries</h2>
-    <p class="indication">choisir une série</p>
+    <PageHeadComponent title="Nos Séries" indication="choisir une série" />
     <div class="course-buttons">
       {#each courses as course}
-        <div class="course-button">
-          <button on:click={() => handleClick(course)}
-            >serie sur {course.title}</button
-          >
-        </div>
+        <ButtonComponent
+          handleClick={() => handleClick(course)}
+          buttonText="serie sur {course.title}"
+        />
       {/each}
     </div>
   </main>
 {:else}
-  <SeriesPage exercises={exercises["exercises"]} {selectedCourse} />
+  <SerieContainer exercises={exercises["exercises"]} {selectedCourse} />
 {/if}

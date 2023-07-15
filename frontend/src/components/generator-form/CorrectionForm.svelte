@@ -1,5 +1,5 @@
 <script>
-  import Dropdown from "./common/Dropdown.svelte";
+  import Dropdown from "../common/Dropdown.svelte";
 
   let hasTheorem = true;
   let hasMethods = true;
