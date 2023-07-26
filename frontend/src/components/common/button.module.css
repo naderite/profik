@@ -1,0 +1,17 @@
+.button {
+  background-color: #ef767a;
+  color: #fff;
+  display: inline-block;
+  height: 45px;
+  font-size: 26px;
+  font-weight: bold;
+  width: 80%;
+  max-width: 200px;
+  border-radius: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px gray;
+}
+.button:hover {
+  background-color: cornflowerblue;
+}

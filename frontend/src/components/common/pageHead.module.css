@@ -1,0 +1,16 @@
+/* Styling for the title */
+.title {
+  font-size: 40px;
+  font-weight: bold;
+
+  margin: 10px 0;
+  color: #c517f9;
+}
+
+/* Styling for the indication */
+.indication {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: larger;
+  color: #484848;
+}

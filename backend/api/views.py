@@ -13,13 +13,15 @@ from .serializers import (
     ExerciseSerializer,
     CorrectionSerializer,
     QuestionSerializer,
+    CourseSerializer,
 )
 
 
 class CourseAPIView(View):
     def get(self, request):
-        courses = Course.objects.all().values("id", "title")
-        return JsonResponse({"courses": list(courses)})
+        courses = Course.objects.all()
+        serializer = CourseSerializer(courses, many=True)
+        return JsonResponse({"courses": serializer.data})
 
 
 class CoursePartAPIView(APIView):

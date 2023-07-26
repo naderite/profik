@@ -1,14 +1,19 @@
 <script>
   import { onMount } from "svelte";
-  import SeriesPage from "./SeriesPage.svelte";
+  import SerieContainer from "../src/components/containers/Serie.svelte";
+  import ButtonComponent from "../src/components/common/Button.svelte";
+  import PageHeadComponent from "../src/components/common/PageHead.svelte";
+
   export let courses = [];
   export let exercises = [];
   let selectedCourse = null;
   let buttonClicked = false;
+
   onMount(async () => {
     // Fetch course options from the server
     courses = await fetchCourses();
   });
+
   async function fetchCourses() {
     try {
       const response = await fetch("http://localhost:8000/api/courses/");
@@ -37,44 +42,27 @@
 
       const data = await response.json();
       exercises = data;
-      console.log(exercises);
-      console.log(typeof exercises);
       buttonClicked = true;
       // Handle the received data as needed
     } catch (error) {
       console.error("Error while fetching exercises:", error);
     }
   }
+  import styles from "./seriesPage.module.css"; // Import the CSS module
 </script>
 
-<main>
-  {#if !buttonClicked}
-    <h2>Series Page</h2>
-    <div class="course-buttons">
+{#if !buttonClicked}
+  <main class={styles.mainContainer}>
+    <PageHeadComponent title="Nos Séries" indication="choisir une série" />
+    <div class={styles.courseButtons}>
       {#each courses as course}
-        <button on:click={() => handleClick(course)}
-          >serie sur {course.title}</button
-        >
+        <ButtonComponent
+          handleClick={() => handleClick(course)}
+          buttonText="serie sur {course.title}"
+        />
       {/each}
     </div>
-  {:else}
-    <SeriesPage exercises={exercises["exercises"]} {selectedCourse} />
-  {/if}
-</main>
-
-<style>
-  .course-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  button {
-    padding: 10px;
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-</style>
+  </main>
+{:else}
+  <SerieContainer exercises={exercises["exercises"]} {selectedCourse} />
+{/if}

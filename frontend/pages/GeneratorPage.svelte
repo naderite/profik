@@ -1,9 +1,23 @@
 <script>
-  import { onMount, afterUpdate } from "svelte";
-  import ExerciseForm from "./ExerciseForm.svelte";
-  import CorrectionForm from "./CorrectionForm.svelte";
-  import SearchResult from "./SearchResult.svelte";
+  import { onMount } from "svelte";
+  import ExerciseForm from "../src/components/generator-form/ExerciseForm.svelte";
+  import CorrectionForm from "../src/components/generator-form/CorrectionForm.svelte";
+  import ExerciseComponent from "../src/components/Exercise/Exercise.svelte";
+  import ExerciseNotFoundPopup from "../src/components/generator-form/ExerciseNotFound.svelte";
+  import PopupComponent from "../src/components/common/Popup.svelte";
+  import WarningComponent from "../src/components/common/Warning.svelte";
+  import ButtonComponent from "../src/components/common/Button.svelte";
+  import PageHeadComponent from "../src/components/common/PageHead.svelte";
+  // initialise modal state and content
+  let errorComponent = ExerciseNotFoundPopup;
 
+  // pass in component as parameter and toggle modal state
+  function showPopup() {
+    errorComponent = ExerciseNotFoundPopup;
+    showErrorPopup = !showErrorPopup;
+  }
+
+  let showErrorPopup = false;
   let courseOptions = [];
   let coursePartOptions = [];
   let courseSelected = false;
@@ -64,6 +78,7 @@
 
     try {
       const queryParams = new URLSearchParams();
+      queryParams.append("level", exerciseFormData.level);
       queryParams.append("coursePart", exerciseFormData.coursePart);
       queryParams.append("length", exerciseFormData.length);
       queryParams.append("reasoning", exerciseFormData.reasoning);
@@ -83,51 +98,54 @@
       );
 
       const data = await response.json();
-      const exercise = data.exercise.exercise;
-      const questions = data.exercise.questions || [];
+      if (data.error) {
+        showErrorPopup = true;
+        console.error("Invalid response data structure:", data);
+      } else {
+        const exercise = data.exercise.exercise;
+        const questions = data.exercise.questions || [];
 
-      searchResultData = { exercise, questions };
-      formSubmitted = true;
+        searchResultData = { exercise, questions };
+        formSubmitted = true;
+      }
     } catch (error) {
       console.error("Error while submitting the form:", error);
+      showErrorPopup = true;
     }
   }
+
+  import styles from "./GeneratorPage.module.css"; // Import the CSS module
+  let indication =
+    "Cliquer sur les menus pour specifier l'exercice puis cliquer sur le button  <span style='font-weight: bold;'>\"Génerer\"</span> pour voir l'exercice";
 </script>
 
 {#if !formSubmitted}
-  <main class="main-container">
-    <h2 class="title">Générateur des exercices personnalisés</h2>
+  <main class={styles.mainContainer}>
+    <PageHeadComponent title="Génerateur des exercices" {indication} />
     {#if !formFilled}
-      <p class="warning">Choisir un cours et une partie de cours</p>
+      <WarningComponent
+        warningMessage="Choisir un cours et une partie de cours"
+      />
       <hr />
     {/if}
-    <div class="form-section">
-      <div class="form-column">
-        <ExerciseForm
-          {courseOptions}
-          {coursePartOptions}
-          bind:exerciseFormData
-        />
-      </div>
-      <div class="form-column">
+    <div class={styles.formSection}>
+      <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
+      <div class={styles.correctionForm}>
         <CorrectionForm bind:correctionFormData />
-        <div class="button-container">
-          <button id="form-submit-button" on:click={handleSubmit}
-            >Générer</button
-          >
-        </div>
+        <ButtonComponent handleClick={handleSubmit} buttonText="Génerer" />
       </div>
     </div>
   </main>
 {/if}
 
 {#if searchResultData}
-  <SearchResult
-    exercise={searchResultData.exercise}
-    questions={searchResultData.questions}
-  />
+  <main class={styles.mainContainer}>
+    <ExerciseComponent
+      exercise={searchResultData.exercise}
+      questions={searchResultData.questions}
+    />
+  </main>
 {/if}
-
-<style>
-  @import "../css/GeneratorForm.css";
-</style>
+{#if showErrorPopup}
+  <PopupComponent on:click={showPopup} messageComponent={errorComponent} />
+{/if}

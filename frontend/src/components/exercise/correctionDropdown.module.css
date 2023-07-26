@@ -1,0 +1,21 @@
+.correctionButton {
+  width: 100%;
+  background-color: #ef767a;
+  color: #fff;
+  display: inline-block;
+  height: 45px;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 0;
+  cursor: pointer;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.correctionContainer {
+  background-color: #ef767a;
+  color: #fff;
+}
+
+.correctionButton:hover {
+  background-color: cornflowerblue;
+}

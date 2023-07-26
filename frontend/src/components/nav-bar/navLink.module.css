@@ -1,0 +1,35 @@
+.navlink {
+  display: block;
+  width: max-content;
+}
+
+/* Styling for the button */
+.nonActive {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #ffffffd8;
+}
+.active {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #ffffff;
+}
+/* Styling for the icon */
+.navlink i {
+  width: 100%;
+  margin-right: 8px;
+}
+
+/* Styling for the label */
+.navlink span {
+  font-size: 20px;
+  font-weight: bold;
+}

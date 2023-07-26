@@ -3,6 +3,7 @@ from django.db import models
 
 class Course(models.Model):
     title = models.CharField(max_length=512)
+    resume = models.CharField(max_length=10000, default="<p>$x=\frac{1}{y}$</p>")
 
 
 class CoursePart(models.Model):

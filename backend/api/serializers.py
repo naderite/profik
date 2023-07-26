@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from profikapp.models import CoursePart, Question, Correction, Exercise
+from profikapp.models import CoursePart, Question, Correction, Exercise, Course
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = "__all__"
 
 
 class CoursePartSerializer(serializers.ModelSerializer):
