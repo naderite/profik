@@ -7,7 +7,7 @@
 </script>
 
 <div class={styles.exerciseContainer}>
-  <h2>Enoncé:</h2>
+  <h3>Enoncé:</h3>
   <MathTextComponent latexText={exercise.head} />
 </div>
 

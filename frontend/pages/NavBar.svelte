@@ -24,9 +24,8 @@
 </script>
 
 <nav class={styles.navbar}>
-  <div class="">
-    <img src="logo.png" alt="logo" class={styles.logo} />
-  </div>
+  <img src="logo.png" alt="logo" class={styles.logo} />
+
   <ul class={styles.navbar}>
     {#each navOptions as option, index}
       <li class="">

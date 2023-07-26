@@ -48,12 +48,13 @@
       console.error("Error while fetching exercises:", error);
     }
   }
+  import styles from "./seriesPage.module.css"; // Import the CSS module
 </script>
 
 {#if !buttonClicked}
-  <main class="main-container">
+  <main class={styles.mainContainer}>
     <PageHeadComponent title="Nos Séries" indication="choisir une série" />
-    <div class="course-buttons">
+    <div class={styles.courseButtons}>
       {#each courses as course}
         <ButtonComponent
           handleClick={() => handleClick(course)}
