@@ -3,15 +3,16 @@
   export let changeComponent;
   export let selected;
   export let index;
+  import styles from "./navLink.module.css"; // Import the CSS module
 </script>
 
-<button
-  class={selected === option ? "nav-link active" : "nav-link"}
-  on:click={changeComponent}
-  id={index}
->
-  <i class="logo material-symbols-outlined">
-    {option.icon}
-  </i>
-  {option.label}
-</button>
+<div class={styles.navlink}>
+  <button
+    on:click={changeComponent}
+    id={index}
+    class={selected === option ? styles.active : styles.nonActive}
+  >
+    <i class="logo material-symbols-outlined text-xl">{option.icon}</i>
+    <span class="">{option.label}</span>
+  </button>
+</div>

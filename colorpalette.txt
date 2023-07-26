@@ -1,0 +1,6 @@
+primary-color: #c517f9; (mauve)
+secondary-color: #ef767a;(orange)
+text-primary-color: #5c5c5c;(black)
+text-secondary-color: #fff;
+card-background-color: "fff";
+background-color: #f7f7f7;(gray)

@@ -1,5 +1,6 @@
 <script>
   export let warningMessage;
+  import styles from "./warning.module.css"; // Import the CSS module
 </script>
 
-<p class="warning">{warningMessage}</p>
+<p class={styles.warning}>{warningMessage}</p>

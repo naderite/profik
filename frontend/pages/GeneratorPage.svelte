@@ -113,29 +113,24 @@
       showErrorPopup = true;
     }
   }
+
+  import styles from "./GeneratorPage.module.css"; // Import the CSS module
+  let indication =
+    "Cliquer sur les menus pour specifier l'exercice puis cliquer sur le button  <span style='font-weight: bold;'>\"Génerer\"</span> pour voir l'exercice";
 </script>
 
 {#if !formSubmitted}
-  <main class="main-container">
-    <PageHeadComponent
-      title="Génerateur des exercices"
-      indication="Cliquer sur les menus pour specifier l'exercice puis cliquer sur le button Génerer pour voir l'exercice"
-    />
+  <main class={styles.mainContainer}>
+    <PageHeadComponent title="Génerateur des exercices" {indication} />
     {#if !formFilled}
       <WarningComponent
         warningMessage="Choisir un cours et une partie de cours"
       />
       <hr />
     {/if}
-    <div class="form-section">
-      <div class="form-column">
-        <ExerciseForm
-          {courseOptions}
-          {coursePartOptions}
-          bind:exerciseFormData
-        />
-      </div>
-      <div class="form-column">
+    <div class={styles.formSection}>
+      <ExerciseForm {courseOptions} {coursePartOptions} bind:exerciseFormData />
+      <div class={styles.correctionForm}>
         <CorrectionForm bind:correctionFormData />
         <ButtonComponent handleClick={handleSubmit} buttonText="Génerer" />
       </div>
@@ -144,7 +139,7 @@
 {/if}
 
 {#if searchResultData}
-  <main class="main-container">
+  <main class={styles.mainContainer}>
     <ExerciseComponent
       exercise={searchResultData.exercise}
       questions={searchResultData.questions}

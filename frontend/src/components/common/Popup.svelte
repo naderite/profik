@@ -2,6 +2,7 @@
   export let messageComponent;
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click|self class="modal">
   <div class="content">
     <svelte:component this={messageComponent} on:click />

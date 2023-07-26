@@ -1,8 +1,7 @@
 <script>
   export let handleClick;
   export let buttonText;
+  import styles from "./button.module.css"; // Import the CSS module
 </script>
 
-<div>
-  <button on:click={handleClick}>{buttonText}</button>
-</div>
+<button class={styles.button} on:click={handleClick}>{buttonText}</button>

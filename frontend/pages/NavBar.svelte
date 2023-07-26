@@ -19,23 +19,21 @@
   function changeComponent(event) {
     selected = navOptions[event.currentTarget.id];
   }
+
+  import styles from "./navBar.module.css";
 </script>
 
-<nav>
-  <div class="navbar">
-    <div class="logo">
-      <img src="logo.png" alt="logo" />
-    </div>
-    <ul class="nav nav-tabs">
-      {#each navOptions as option, index}
-        <li>
-          <Navlink {option} {selected} {changeComponent} {index} />
-        </li>
-      {/each}
-    </ul>
+<nav class={styles.navbar}>
+  <div class="">
+    <img src="logo.png" alt="logo" class={styles.logo} />
   </div>
+  <ul class={styles.navbar}>
+    {#each navOptions as option, index}
+      <li class="">
+        <Navlink {option} {selected} {changeComponent} {index} />
+      </li>
+    {/each}
+  </ul>
 </nav>
 
-<main>
-  <svelte:component this={selected.component} />
-</main>
+<svelte:component this={selected.component} />

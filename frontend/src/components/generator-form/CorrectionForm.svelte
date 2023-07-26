@@ -26,22 +26,24 @@
     hasTheorem,
     comments,
   };
+
+  import styles from "./form.module.css"; // Import the CSS module
 </script>
 
-<div class="form-container">
-  <Dropdown
-    label="Théorème:"
-    options={theoremChoices}
-    bind:value={correctionFormData.hasTheorem}
-  />
-  <Dropdown
-    label="Nombre de méthodes:"
-    options={methodsChoices}
-    bind:value={correctionFormData.hasMethods}
-  />
-  <Dropdown
-    label="Commentaires"
-    options={commentsChoices}
-    bind:value={correctionFormData.comments}
-  />
-</div>
+<p class={styles.indication}>Choisir l'exercice suivant:</p>
+
+<Dropdown
+  label="Théorème:"
+  options={theoremChoices}
+  bind:value={correctionFormData.hasTheorem}
+/>
+<Dropdown
+  label="Nombre de méthodes:"
+  options={methodsChoices}
+  bind:value={correctionFormData.hasMethods}
+/>
+<Dropdown
+  label="Commentaires"
+  options={commentsChoices}
+  bind:value={correctionFormData.comments}
+/>

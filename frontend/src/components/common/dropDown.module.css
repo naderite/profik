@@ -1,0 +1,26 @@
+/* Styling for the label */
+.dropDownLabel {
+  display: block;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #5c5c5c;
+  font-size: large;
+}
+
+/* Styling for the select input */
+.formSelect {
+  background-color: #c517f9;
+  display: block;
+  max-width: 300px;
+  width: 80%;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  margin: 5px 0;
+  box-shadow: 1px 1px 3px gray;
+}
+option:focus-within {
+  background-color: #c517f9;
+}

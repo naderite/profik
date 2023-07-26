@@ -55,36 +55,38 @@
       difficulty,
     };
   });
+
+  import styles from "./form.module.css"; // Import the CSS module
 </script>
 
-<div class="form-container">
+<div class={styles.formContainer}>
+  <p class={styles.indication}>Choisir l'exercice suivant:</p>
   <DropdownComponent
     label="la Difficulté de l'exercice:"
     options={levelChoices}
     bind:value={level}
   />
   <!--refused to work with dropdown component-->
-  <label>
-    Le cours:
-    <select bind:value={course}>
-      {#each courseOptions as option}
+  <p class={styles.dropDownLabel}>Le cours:</p>
+
+  <select bind:value={course} class={styles.formSelect}>
+    {#each courseOptions as option}
+      <option value={option.id}>{option.title}</option>
+    {/each}
+  </select>
+
+  <!--refused to work with dropdown component-->
+  <p class={styles.dropDownLabel}>La partie de cours:</p>
+
+  <select bind:value={coursePart} class={styles.formSelect}>
+    {#if course}
+      {#each filterCourseParts(coursePartOptions, course) as option}
         <option value={option.id}>{option.title}</option>
       {/each}
-    </select>
-  </label>
-  <!--refused to work with dropdown component-->
-  <label>
-    La partie de cours:
-    <select bind:value={coursePart}>
-      {#if course}
-        {#each filterCourseParts(coursePartOptions, course) as option}
-          <option value={option.id}>{option.title}</option>
-        {/each}
-      {:else}
-        <option value={null}>Selectionner un cours avant</option>
-      {/if}
-    </select>
-  </label>
+    {:else}
+      <option value={null}>Selectionner un cours avant</option>
+    {/if}
+  </select>
 
   <DropdownComponent
     label="La longueur:"

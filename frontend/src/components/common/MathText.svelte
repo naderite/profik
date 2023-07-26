@@ -27,8 +27,9 @@
       }
     }
   }
+  import styles from "./mathText.module.css"; // Import the CSS module
 </script>
 
-<div>
+<div class={styles.mathText}>
   {@html latexText}
 </div>
