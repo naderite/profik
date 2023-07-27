@@ -1,0 +1,11 @@
+/* Styling for the main container */
+.mainContainer {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: flex-start;
+  padding: 0 40px;
+  width: 90%;
+  background-color: #f7f7f7;
+  margin-left: 12%;
+}
