@@ -48,7 +48,8 @@
 
   async function fetchCourseOptions() {
     try {
-      const response = await fetch("http://localhost:8000/api/courses/");
+      const response = await fetch("http://127.0.0.1:8000/api/courses/");
+      console.log(response);
       const data = await response.json();
       courseSelected = true;
       return data.courses;
@@ -60,7 +61,7 @@
 
   async function fetchCoursePartOptions() {
     try {
-      const response = await fetch("http://localhost:8000/api/course-parts/");
+      const response = await fetch("http://127.0.0.1:8000/api/course-parts/");
       const data = await response.json();
       return data;
     } catch (error) {
@@ -84,7 +85,6 @@
       queryParams.append("reasoning", exerciseFormData.reasoning);
       queryParams.append("difficulty", exerciseFormData.difficulty);
       queryParams.append("hasTheorem", correctionFormData.hasTheorem);
-      queryParams.append("hasMethods", correctionFormData.hasMethods);
       queryParams.append("comments", correctionFormData.comments);
 
       const response = await fetch(

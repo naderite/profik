@@ -41,7 +41,6 @@ class SearchExercise(View):
         length = request.GET.get("length")
         reasoning = request.GET.get("reasoning")
         difficulty = request.GET.get("difficulty")
-        has_methods = request.GET.get("hasMethods") == "true"
         has_theorem = request.GET.get("hasTheorem") == "true"
         comments = request.GET.get("comments")
 
@@ -64,16 +63,14 @@ class SearchExercise(View):
         if exercises.exists():
             # Get a random exercise from the filtered exercises
             exercise = random.choice(exercises)
-            exercise_data = self.extract_exercise_data(
-                exercise, has_methods, has_theorem, comments
-            )
+            exercise_data = self.extract_exercise_data(exercise, has_theorem, comments)
             # Return the exercise data as JSON response
             return JsonResponse({"exercise": exercise_data})
         else:
             # Handle the case when no exercises are found
             return JsonResponse({"error": "No exercises found"})
 
-    def extract_exercise_data(self, exercise, has_methods, has_theorem, comments):
+    def extract_exercise_data(self, exercise, has_theorem, comments):
         questions = exercise.question_set.all()
         exercise_data = {
             "exercise": ExerciseSerializer(exercise).data,
@@ -83,11 +80,11 @@ class SearchExercise(View):
         for question in questions:
             if correction := Correction.objects.filter(
                 question=question,
-                has_methods=has_methods,
-                has_theorem=has_theorem,
                 comments=comments,
             ).first():
                 correction_data = CorrectionSerializer(correction).data
+                if not has_theorem:
+                    correction_data["theorem_text"] = ""
             else:
                 correction_data = None
 
@@ -130,8 +127,6 @@ class ExerciseAPIView(APIView):
         for question in questions:
             if correction := Correction.objects.filter(
                 question=question,
-                has_methods=True,
-                has_theorem=True,
                 comments=2,
             ).first():
                 correction_data = CorrectionSerializer(correction).data

@@ -23,7 +23,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class CorrectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Correction
-        fields = ["has_methods", "comments", "has_theorem", "text"]
+        fields = ["comments", "theorem_text", "text"]
 
 
 class ExerciseSerializer(serializers.ModelSerializer):

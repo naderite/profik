@@ -1,11 +1,9 @@
-{% extends "profik/base.html" %}
-
-{% block content %}
-  <div>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Submit" />
-    </form>
-  </div>
+{% extends "profik/base.html" %} {% block content %}
+<div class="container">
+  <h1>Ajout des exercices</h1>
+  <form method="post" class="simple-form">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Ajouter exercice</button>
+  </form>
+</div>
 {% endblock %}

@@ -16,7 +16,7 @@
 
   async function fetchCourses() {
     try {
-      const response = await fetch("http://localhost:8000/api/courses/");
+      const response = await fetch("http://127.0.0.1:8000/api/courses/");
       const data = await response.json();
       return data.courses;
     } catch (error) {
@@ -28,7 +28,7 @@
   async function handleClick(course) {
     selectedCourse = course;
     try {
-      const response = await fetch("http://localhost:8000/api/exercises/", {
+      const response = await fetch("http://127.0.0.1:8000/api/exercises/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

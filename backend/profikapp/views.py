@@ -1,15 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .backend_logic import (
-    _search_correction,
-    _search_exercise,
     _fill_exercise_data,
     _extract_exercise_data_from_form,
 )
 from .backend_logic import (
     _create_correction,
-    _generate_combinations,
     _get_correction_context,
-    _has_remaining_combinations,
     _get_correction_form,
 )
 from .forms import ExerciseForm, CorrectionForm, QuestionForm
@@ -91,29 +87,31 @@ def add_correction(request, question_id):
         HttpResponse: The rendered add correction page or a redirect to the add question page.
     """
     question = get_object_or_404(Question, id=question_id)
-    combinations = _generate_combinations()
     # Retrieve current_index from session or generate new ones
     session = SessionStore(session_key=request.session.session_key)
     current_index = session.get("current_index")
     if not current_index:
         session["current_index"] = 0
         session.save()
-    num_combinations = len(combinations)
-
-    print(current_index, num_combinations)
+    if current_index >= 3:
+        current_index = 0
+        session["current_index"] = current_index
+    print(current_index)
     if request.method == "POST":
         form = CorrectionForm(request.POST)
+        print(current_index)
         if form.is_valid():
-            if not _has_remaining_combinations(current_index, num_combinations):
+            if current_index >= 2:
                 # Update current_index in the session
-                session["current_index"] = 0
+                current_index = 0
+                session["current_index"] = current_index
                 session.save()
                 # Redirect to add_question view
                 return redirect(reverse("add_question", args=[question.exercise.id]))
 
             text = form.cleaned_data["text"]
-            current_combination = combinations[current_index]
-            correction = _create_correction(question, current_combination, text)
+            theorem_text = form.cleaned_data["theorem_text"]
+            correction = _create_correction(question, current_index, text, theorem_text)
             correction.save()
             current_index += 1
 
@@ -121,11 +119,10 @@ def add_correction(request, question_id):
                 "current_index"
             ] = current_index  # Update current_index in the session
             session.save()  # Save the session after updating the value
-            next_combination = combinations[current_index]
-            form = _get_correction_form(next_combination)
-    else:
-        initial_combination = combinations[0]
-        form = _get_correction_form(initial_combination)
 
-    context = _get_correction_context(question, num_combinations, combinations, form)
+            form = _get_correction_form(current_index)
+    else:
+        form = _get_correction_form(index=0)
+    context = _get_correction_context(question, current_index, form)
+
     return render(request, "profik/add_correction.html", context)

@@ -62,7 +62,7 @@
 <div class={styles.formContainer}>
   <p class={styles.indication}>Choisir l'exercice suivant:</p>
   <DropdownComponent
-    label="la Difficulté de l'exercice:"
+    label="Votre niveau d'étude:"
     options={levelChoices}
     bind:value={level}
   />

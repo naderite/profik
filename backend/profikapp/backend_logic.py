@@ -121,46 +121,29 @@ def _fill_exercise_data(exercise, exercise_data):
     exercise.head = exercise_data[5]
 
 
-def _generate_combinations():
-    theorem_values = [True, False]
-    number_of_methods_values = [True, False]
-    comment_values = [0, 1, 2]
-    return list(
-        itertools.product(theorem_values, number_of_methods_values, comment_values)
-    )
-
-
-def _create_correction(question, combination, text):
+def _create_correction(question, index, text, theorem):
     return Correction.objects.create(
-        has_theorem=combination[0],
-        has_methods=combination[1],
-        comments=combination[2],
+        comments=index,
         text=text,
         question=question,
+        theorem_text=theorem,
     )
 
 
-def _has_remaining_combinations(current_index, num_combinations):
-    return current_index < num_combinations - 1
-
-
-def _get_correction_form(combination):
+def _get_correction_form(index):
     return CorrectionForm(
         initial={
             "text": "",
-            "has_theorem": combination[0],
-            "has_methods": combination[1],
-            "comments": combination[2],
+            "theorem_text": "",
+            "comments": index,
         }
     )
 
 
-def _get_correction_context(question, num_combinations, combinations, form):
+def _get_correction_context(question, index, form):
     return {
         "form": form,
         "question": question,
-        "current_index": num_combinations - len(combinations),
-        "num_combinations": num_combinations,
-        "num_remaining_combinations": len(combinations),
+        "current_index": index,
         "form_errors": form.errors,  # Include form errors in the context
     }

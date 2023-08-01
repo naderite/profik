@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-2by%*k=8_5g+v-7vwwb37_qvsm6so_)ru459%2=!u%69g2!tkl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = ["e2dc-41-62-230-172.ngrok-free.app", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -56,8 +56,26 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "profik.urls"
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
+    "https://e2dc-41-62-230-172.ngrok-free.app",
+    "https://25fc-102-159-49-36.ngrok-free.app",
+    "https://452c-102-159-49-36.ngrok-free.app",
+    "https://5ab8-102-159-49-36.ngrok-free.app",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 TEMPLATES = [

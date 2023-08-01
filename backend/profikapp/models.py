@@ -45,7 +45,7 @@ class Exercise(models.Model):
 
 class Question(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, default=1)
-    order = models.CharField(max_length=12)
+    order = models.CharField(max_length=6)
     text = models.TextField()
 
 
@@ -55,8 +55,7 @@ class Correction(models.Model):
         (1, "moyen"),
         (2, "trés explicatif"),
     ]
-    has_methods = models.BooleanField(default=False)
     comments = models.PositiveSmallIntegerField(choices=COMMENT_CHOICES, default=0)
-    has_theorem = models.BooleanField(default=False)
+    theorem_text = models.TextField(default="default_value_here")
     question = models.ForeignKey(Question, on_delete=models.CASCADE, default=1)
     text = models.TextField(default="default_value_here")

@@ -1,43 +1,41 @@
 {% extends "profik/base.html" %} {% block content %}
-<h1>Add Correction</h1>
-<p>Exercise: {{ question.exercise.id }}</p>
-{% if messages %}
-{% for message in messages %}
+<div class="container">
+  <h1>Ajout des Corrections</h1>
+  <p>Exercise: {{ question.exercise.id }}</p>
+  {% if messages %} {% for message in messages %}
   <div class="alert alert-info">{{ message }}</div>
-{% endfor %}
-{% endif %}
-<div>
-  {% if num_remaining_combinations > 0 %}
-  <h2>Correction Properties:</h2>
-  <form method="post" action="{% url 'add_correction' question.id %}">
-    {% csrf_token %} 
-    <p>Correction text</p> 
-    {{ form.text }} <br />
-    {{ form.has_theorem.label_tag }} {{ form.has_theorem.value }} <br />
-    {{ form.has_methods.label_tag }} {{ form.has_methods.value }}
-    <br />
-    {{ form.comments.label_tag }} {{ form.comments.value }} <br />
-
-    {% for field in form.hidden_fields %} {{ field }} {% endfor %}
-    {% if form.errors %}
-    <div class="form-errors">
-      <ul>
-        {% for field in form %} {% if field.errors %}
-        <li>
-          {{ field.label }}:
-          <ul>
-            {% for error in field.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
-        </li>
-        {% endif %} {% endfor %}
-      </ul>
-    </div>
+  {% endfor %} {% endif %}
+  <div class="correction-form">
+    {% if current_index < 3 %}
+    <h2>Proprietés de la Correction:</h2>
+    <form method="post" action="{% url 'add_correction' question.id %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.text.id_for_label }}">{{ form.text.label }}</label>
+        {{ form.text }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.theorem_text.id_for_label }}"
+          >{{ form.theorem_text.label }}</label
+        >
+        {{ form.theorem_text }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.comments.id_for_label }}"
+          >{{ form.comments.label }}</label
+        >
+        {% if form.comments.value == 0 %}
+        <p>Minimum</p>
+        {% elif form.comments.value == 1 %}
+        <p>moyen</p>
+        {% else %}
+        <p>trés explicatif</p>
+        {% endif %}
+      </div>
+      {% for field in form.hidden_fields %} {{ field }} {% endfor %}
+      <button type="submit" class="btn btn-primary">Ajouter correction</button>
+    </form>
     {% endif %}
-
-    <input type="submit" value="Submit" />
-  </form>
+  </div>
 </div>
-{% endif %} 
 {% endblock %}

@@ -21,6 +21,8 @@
     on:click={() => toggleCorrection(question)}>Correction</button
   >
   {#if activeQuestion}
+    <MathTextComponent latexText={question.correction.theorem_text} />
+
     <MathTextComponent latexText={question.correction.text} />
   {/if}
 </div>

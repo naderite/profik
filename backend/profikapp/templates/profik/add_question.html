@@ -1,12 +1,15 @@
-{% extends "profik/base.html" %}
-
-{% block content %}
-  <div>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Submit" />
-    </form>
-    <button onclick="window.location.href='{% url 'add_exercise' %}'">Terminer cette exercice</button>
-  </div>
+{% extends "profik/base.html" %} {% block content %}
+<div class="container">
+  <h1>Ajout des questions</h1>
+  <form method="post" class="exercise-form">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Ajouter question</button>
+  </form>
+  <button
+    class="btn btn-secondary"
+    onclick="window.location.href='{% url 'add_exercise' %}'"
+  >
+    Terminer cette exercice
+  </button>
+</div>
 {% endblock %}

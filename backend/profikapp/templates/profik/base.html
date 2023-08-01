@@ -1,41 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profik</title>
-  <style>
-    /* Custom styles for better presentation */
-    /* Add your custom styles or utilize a CSS framework here */
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profik</title>
+    <style>
+      /* styles.css */
+      /* styles.css */
 
-    select {
-      width: 100px;
-      margin: 10px;
-    }
+      body {
+        font-family: Arial, sans-serif;
+      }
 
-    .box {
-      height: 100px;
-      width: 100px;
-      border: 3px solid red;
-      margin: 5px;
-    }
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-    .button {
-      margin-top: 10px;
-    }
-  </style>
-  {% block head %}{% endblock %}
-</head>
-<body>
-  <div class="container">
-    {% block content %} {% endblock %}
-  </div>
-</body>
+      h1 {
+        color: #0066cc;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      .alert-info {
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      .correction-form {
+        margin-top: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s ease-in-out;
+      }
+
+      input[type="text"]:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #0066cc;
+      }
+
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: url("data:image/svg+xml,%3Csvg fill='none' stroke='currentColor' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.293 9.293a1 1 0 011.414 0L12 12.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z' clip-rule='evenodd' fill-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")
+          no-repeat right center;
+        background-size: 20px;
+        padding-right: 40px; /* Space for the dropdown arrow icon */
+      }
+      .btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .btn-primary {
+        background-color: #0066cc;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0050a0;
+        color: #fff; /* Change text color on hover */
+      }
+
+      .btn-secondary {
+        background-color: green;
+        color: #fff;
+      }
+
+      .btn-secondary:hover {
+        background-color: #009a00;
+        color: #fff; /* Change text color on hover */
+      }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body class="container">
+    <div>{% block content %} {% endblock %}</div>
+  </body>
 </html>
