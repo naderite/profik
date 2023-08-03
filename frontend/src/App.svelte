@@ -4,8 +4,8 @@
 </script>
 
 <div id={style.mainapp}>
-  <NavBar />
   <main />
+  <NavBar />
 </div>
 
 <svelte:head>

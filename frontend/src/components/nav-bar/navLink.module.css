@@ -33,3 +33,84 @@
   font-size: 20px;
   font-weight: bold;
 }
+
+@media screen and (min-width: 485px) and (max-width: 1024px) {
+  .navlink {
+    display: block;
+    width: max-content;
+  }
+
+  /* Styling for the button */
+  .nonActive {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffffd8;
+  }
+  .active {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  .navlink button {
+    padding: 0;
+    margin-top: 10px;
+  }
+  /* Styling for the icon */
+  .navlink i {
+    width: 100%;
+    margin-right: 8px;
+  }
+
+  /* Styling for the label */
+  .navlink span {
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 484px) {
+  .navlink {
+    display: block;
+    width: max-content;
+  }
+
+  /* Styling for the button */
+  .nonActive {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffffd8;
+  }
+  .active {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  .navlink button {
+    padding: 0;
+    margin-top: 10px;
+  }
+  /* Styling for the icon */
+  .navlink i {
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    font-size: 40px;
+  }
+
+  /* Styling for the label */
+  .navlink span {
+    display: none;
+  }
+}
