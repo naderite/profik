@@ -16,7 +16,14 @@
 
   async function fetchCourses() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/courses/");
+      const response = await fetch(
+        "https://5f81-102-157-246-13.ngrok-free.app/api/courses/",
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       const data = await response.json();
       return data.courses;
     } catch (error) {
@@ -28,13 +35,17 @@
   async function handleClick(course) {
     selectedCourse = course;
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/exercises/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ course_id: course.id }),
-      });
+      const response = await fetch(
+        "https://5f81-102-157-246-13.ngrok-free.app/api/exercises/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify({ course_id: course.id }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch exercises");

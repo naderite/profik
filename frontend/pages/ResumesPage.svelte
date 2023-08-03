@@ -15,7 +15,14 @@
 
   async function fetchCourses() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/courses/");
+      const response = await fetch(
+        "https://5f81-102-157-246-13.ngrok-free.app/api/courses/",
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       const data = await response.json();
       return data.courses;
     } catch (error) {

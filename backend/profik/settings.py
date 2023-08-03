@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-2by%*k=8_5g+v-7vwwb37_qvsm6so_)ru459%2=!u%69g2!tkl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["e2dc-41-62-230-172.ngrok-free.app", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "e2dc-41-62-230-172.ngrok-free.app",
+    "localhost",
+    "127.0.0.1",
+    "5f81-102-157-246-13.ngrok-free.app",
+]
 
 
 # Application definition
@@ -64,8 +69,8 @@ CORS_ORIGIN_WHITELIST = [
     "https://25fc-102-159-49-36.ngrok-free.app",
     "https://452c-102-159-49-36.ngrok-free.app",
     "https://5ab8-102-159-49-36.ngrok-free.app",
+    "https://5f81-102-157-246-13.ngrok-free.app",
 ]
-
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -76,7 +81,9 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
+    "ngrok-skip-browser-warning",  # Add this line to allow the header
 ]
+
 
 TEMPLATES = [
     {
