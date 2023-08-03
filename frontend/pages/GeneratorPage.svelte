@@ -48,7 +48,7 @@
 
   async function fetchCourseOptions() {
     try {
-      const response = await fetch("https://localhost:8000/api/courses/");
+      const response = await fetch("http://localhost:8000/api/courses/");
       console.log(response);
       const data = await response.json();
       courseSelected = true;
@@ -61,7 +61,7 @@
 
   async function fetchCoursePartOptions() {
     try {
-      const response = await fetch("https://localhost:8000/api/course-parts/");
+      const response = await fetch("http://localhost:8000/api/course-parts/");
       const data = await response.json();
       return data;
     } catch (error) {

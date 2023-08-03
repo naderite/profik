@@ -15,7 +15,7 @@
 
   async function fetchCourses() {
     try {
-      const response = await fetch("https://localhost:8000/api/courses/", {
+      const response = await fetch("http://localhost:8000/api/courses/", {
         headers: {
           "ngrok-skip-browser-warning": "true",
         },

@@ -32,7 +32,7 @@
   async function handleClick(course) {
     selectedCourse = course;
     try {
-      const response = await fetch("https://localhost:8000/api/exercises/", {
+      const response = await fetch("http://localhost:8000/api/exercises/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
