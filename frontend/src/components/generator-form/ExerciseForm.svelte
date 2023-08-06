@@ -67,26 +67,30 @@
     bind:value={level}
   />
   <!--refused to work with dropdown component-->
-  <p class={styles.dropDownLabel}>Le cours:</p>
+  <div class={styles.dropDownContainer}>
+    <p class={styles.dropDownLabel}>Le cours:</p>
 
-  <select bind:value={course} class={styles.formSelect}>
-    {#each courseOptions as option}
-      <option value={option.id}>{option.title}</option>
-    {/each}
-  </select>
-
-  <!--refused to work with dropdown component-->
-  <p class={styles.dropDownLabel}>La partie de cours:</p>
-
-  <select bind:value={coursePart} class={styles.formSelect}>
-    {#if course}
-      {#each filterCourseParts(coursePartOptions, course) as option}
+    <select bind:value={course} class={styles.formSelect}>
+      {#each courseOptions as option}
         <option value={option.id}>{option.title}</option>
       {/each}
-    {:else}
-      <option value={null}>Selectionner un cours avant</option>
-    {/if}
-  </select>
+    </select>
+  </div>
+
+  <div class={styles.dropDownContainer}>
+    <!--refused to work with dropdown component-->
+    <p class={styles.dropDownLabel}>La partie de cours:</p>
+
+    <select bind:value={coursePart} class={styles.formSelect}>
+      {#if course}
+        {#each filterCourseParts(coursePartOptions, course) as option}
+          <option value={option.id}>{option.title}</option>
+        {/each}
+      {:else}
+        <option value={null}>Selectionner un cours avant</option>
+      {/if}
+    </select>
+  </div>
 
   <DropdownComponent
     label="La longueur:"

@@ -1,12 +1,13 @@
 #mainapp {
   display: flex;
   font-family: "Roboto", sans-serif;
+  height: 100vh;
 }
 @media screen and (max-width: 484px) {
   body {
-    height: 100hv;
+    height: 100vh;
   }
   #mainapp {
-    height: fit-content;
+    height: 100vh;
   }
 }
