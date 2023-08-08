@@ -9,7 +9,6 @@
   let course = null;
   let coursePart = null;
   let length = 0;
-  let reasoning = 0;
   let difficulty = 0;
 
   const levelChoices = [
@@ -30,13 +29,6 @@
     { value: 2, label: "difficile" },
   ];
 
-  const reasoningChoices = [
-    { value: 0, label: "normal" },
-    { value: 1, label: "récurrence" },
-    { value: 2, label: "absurd" },
-    { value: 3, label: "aléatoire" },
-  ];
-
   function filterCourseParts(courseParts, courseId) {
     return courseId
       ? courseParts.filter((part) => part.course === courseId)
@@ -51,7 +43,6 @@
       course,
       coursePart,
       length,
-      reasoning,
       difficulty,
     };
   });
@@ -96,12 +87,6 @@
     label="La longueur:"
     options={lengthChoices}
     bind:value={length}
-  />
-
-  <DropdownComponent
-    label="Le raisonnement:"
-    options={reasoningChoices}
-    bind:value={reasoning}
   />
 
   <DropdownComponent
