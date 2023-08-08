@@ -1,5 +1,5 @@
 import random
-
+import logging
 from django.http import JsonResponse
 from django.views import View
 
@@ -15,6 +15,8 @@ from .serializers import (
     QuestionSerializer,
     CourseSerializer,
 )
+
+logger = logging.getLogger("main")
 
 
 class CourseAPIView(View):
@@ -37,6 +39,7 @@ class SearchExercise(View):
             return JsonResponse({"error": "Invalid request method"})
 
         # Extract the form data from the GET request
+        level = request.GET.get("level")
         course_part = request.GET.get("coursePart")
         length = request.GET.get("length")
         reasoning = request.GET.get("reasoning")
@@ -44,10 +47,14 @@ class SearchExercise(View):
         has_theorem = request.GET.get("hasTheorem") == "true"
         comments = request.GET.get("comments")
 
+        # logging message
+        logging_message = f"level: {level}; course part: {course_part}; length: {length}; difficulty: {difficulty}; has theorem: {has_theorem}; comments: {comments}"
+        logger.info(logging_message)
         # Filter the exercises based on the provided filters
         # if the reasoning is set to random don't include in the filter
         if reasoning == "3":
             exercises = Exercise.objects.filter(
+                level=level,
                 course_part=course_part,
                 length=length,
                 difficulty=difficulty,
@@ -55,6 +62,7 @@ class SearchExercise(View):
 
         else:
             exercises = Exercise.objects.filter(
+                level=level,
                 course_part=course_part,
                 length=length,
                 reasoning=reasoning,
