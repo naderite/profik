@@ -1,3 +1,8 @@
 2023-08-08 18:24:20,231 - INFO - views - get - <WSGIRequest: GET '/api/submit/?level=bac+tech&coursePart=18&length=0&reasoning=0&difficulty=0&hasTheorem=true&comments=0'>
 2023-08-08 18:28:05,858 - INFO - views - get - 18; 0; 0; True; 0
 2023-08-08 18:40:12,283 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0
+2023-08-08 18:54:48,967 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0
+2023-08-08 18:55:49,831 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0
+2023-08-08 18:56:09,245 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0
+2023-08-08 18:56:42,444 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0
+2023-08-08 18:57:14,156 - INFO - views - get - level: bac tech; course part: 18; length: 0; difficulty: 0; has theorem: True; comments: 0

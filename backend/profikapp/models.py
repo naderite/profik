@@ -24,11 +24,6 @@ class Exercise(models.Model):
         (1, "moyen"),
         (2, "difficile"),
     ]
-    REASONING_CHOICES = [
-        (0, "normal"),
-        (1, "récurrence"),
-        (2, "absurd"),
-    ]
     LEVEL_CHOICES = [
         ("bac tech", "Bac technique"),
         ("bac SC", "Bac science"),
@@ -38,7 +33,6 @@ class Exercise(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=10)
     course_part = models.ForeignKey(CoursePart, on_delete=models.CASCADE, default=1)
     length = models.PositiveSmallIntegerField(choices=LENGTH_CHOICES)
-    reasoning = models.PositiveBigIntegerField(choices=REASONING_CHOICES)
     difficulty = models.PositiveSmallIntegerField(choices=DIFFICULTY_CHOICES, default=0)
     head = models.TextField(default="")
 

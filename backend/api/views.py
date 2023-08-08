@@ -42,7 +42,6 @@ class SearchExercise(View):
         level = request.GET.get("level")
         course_part = request.GET.get("coursePart")
         length = request.GET.get("length")
-        reasoning = request.GET.get("reasoning")
         difficulty = request.GET.get("difficulty")
         has_theorem = request.GET.get("hasTheorem") == "true"
         comments = request.GET.get("comments")
@@ -51,23 +50,13 @@ class SearchExercise(View):
         logging_message = f"level: {level}; course part: {course_part}; length: {length}; difficulty: {difficulty}; has theorem: {has_theorem}; comments: {comments}"
         logger.info(logging_message)
         # Filter the exercises based on the provided filters
-        # if the reasoning is set to random don't include in the filter
-        if reasoning == "3":
-            exercises = Exercise.objects.filter(
-                level=level,
-                course_part=course_part,
-                length=length,
-                difficulty=difficulty,
-            )
 
-        else:
-            exercises = Exercise.objects.filter(
-                level=level,
-                course_part=course_part,
-                length=length,
-                reasoning=reasoning,
-                difficulty=difficulty,
-            )
+        exercises = Exercise.objects.filter(
+            level=level,
+            course_part=course_part,
+            length=length,
+            difficulty=difficulty,
+        )
         if exercises.exists():
             # Get a random exercise from the filtered exercises
             exercise = random.choice(exercises)
