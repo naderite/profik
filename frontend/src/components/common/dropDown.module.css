@@ -6,7 +6,12 @@
   color: #5c5c5c;
   font-size: large;
 }
-
+.dropDownContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
 /* Styling for the select input */
 .formSelect {
   background-color: #c517f9;
