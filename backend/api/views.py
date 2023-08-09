@@ -52,7 +52,7 @@ class SearchExercise(View):
         # Filter the exercises based on the provided filters
 
         exercises = Exercise.objects.filter(
-            level=level,
+            level__contains=level,
             course_part=course_part,
             length=length,
             difficulty=difficulty,
