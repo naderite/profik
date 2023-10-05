@@ -1,5 +1,5 @@
 import random
-
+import logging
 from django.http import JsonResponse
 from django.views import View
 
@@ -15,6 +15,8 @@ from .serializers import (
     QuestionSerializer,
     CourseSerializer,
 )
+
+logger = logging.getLogger("main")
 
 
 class CourseAPIView(View):
@@ -37,29 +39,24 @@ class SearchExercise(View):
             return JsonResponse({"error": "Invalid request method"})
 
         # Extract the form data from the GET request
+        level = request.GET.get("level")
         course_part = request.GET.get("coursePart")
         length = request.GET.get("length")
-        reasoning = request.GET.get("reasoning")
         difficulty = request.GET.get("difficulty")
         has_theorem = request.GET.get("hasTheorem") == "true"
         comments = request.GET.get("comments")
 
+        # logging message
+        logging_message = f"level: {level}; course part: {course_part}; length: {length}; difficulty: {difficulty}; has theorem: {has_theorem}; comments: {comments}"
+        logger.info(logging_message)
         # Filter the exercises based on the provided filters
-        # if the reasoning is set to random don't include in the filter
-        if reasoning == "3":
-            exercises = Exercise.objects.filter(
-                course_part=course_part,
-                length=length,
-                difficulty=difficulty,
-            )
 
-        else:
-            exercises = Exercise.objects.filter(
-                course_part=course_part,
-                length=length,
-                reasoning=reasoning,
-                difficulty=difficulty,
-            )
+        exercises = Exercise.objects.filter(
+            level__contains=level,
+            course_part=course_part,
+            length=length,
+            difficulty=difficulty,
+        )
         if exercises.exists():
             # Get a random exercise from the filtered exercises
             exercise = random.choice(exercises)
@@ -99,7 +96,6 @@ class ExerciseAPIView(APIView):
     def get(self, request):
         exercises = Exercise.objects.all()
         serializer = ExerciseSerializer(exercises, many=True)
-        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request):
@@ -112,7 +108,13 @@ class ExerciseAPIView(APIView):
                 exercise_data = self.extract_exercise_data(exercise)
                 # Return the exercise data as JSON response
                 exercises_list.append(exercise_data)
+                # log exercises
+                logging_message = (
+                    f"exercise id: {exercise.id};\n exercise data: {exercise_data}"
+                )
+                logger.info(logging_message)
             return JsonResponse({"exercises": exercises_list})
+
         else:
             # Handle the case when no exercises are found
             return JsonResponse({"error": "No exercises found"})
@@ -127,13 +129,19 @@ class ExerciseAPIView(APIView):
         for question in questions:
             if correction := Correction.objects.filter(
                 question=question,
-                comments=2,
+                comments=1,
             ).first():
                 correction_data = CorrectionSerializer(correction).data
+                logging_message = f"correction id: {correction.id};\n correction data: {correction_data}"
+                logger.info(logging_message)
             else:
                 correction_data = None
 
             question_data = QuestionSerializer(question).data
+            logging_message = (
+                f"question id: {question.id};\n question data: {question_data}"
+            )
+            logger.info(logging_message)
             question_data["correction"] = correction_data
             exercise_data["questions"].append(question_data)
 

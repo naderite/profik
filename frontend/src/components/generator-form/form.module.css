@@ -38,3 +38,105 @@
   font-size: 24px;
   font-weight: bold;
 }
+/* tablet screen */
+@media screen and (min-width: 485px) and (max-width: 1024px) {
+  .formContainer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+    padding: 20px;
+    height: 100%;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px -7px #c517f9;
+  }
+
+  /* Styling for the label */
+  .dropDownLabel {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: large;
+    color: #5c5c5c;
+  }
+  .dropDownContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  /* Styling for the select input */
+  .formSelect {
+    background-color: #c517f9;
+    display: block;
+    max-width: 300px;
+    width: 200px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px gray;
+  }
+  .indication {
+    margin: 10px 0;
+    color: #c517f9;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 484px) {
+  .formContainer {
+    display: inline-flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding: 10px;
+    height: fit-content;
+    background-color: #fff;
+    width: 95%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px -7px #c517f9;
+    margin-bottom: 10px;
+  }
+  .dropDownContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  /* Styling for the label */
+  .dropDownLabel {
+    display: inline-block;
+    margin: 5px 0;
+    font-weight: bold;
+    font-size: 14px;
+    color: #5c5c5c;
+  }
+
+  /* Styling for the select input */
+  .formSelect {
+    background-color: #c517f9;
+    display: inline-block;
+    max-width: 150px;
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px gray;
+    vertical-align: middle;
+    margin: 0;
+  }
+  .indication {
+    margin: 0;
+    color: #c517f9;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+}

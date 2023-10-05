@@ -48,14 +48,7 @@
 
   async function fetchCourseOptions() {
     try {
-      const response = await fetch(
-        "https://5f81-102-157-246-13.ngrok-free.app/api/courses/",
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          },
-        }
-      );
+      const response = await fetch("http://localhost:8000/api/courses/");
       console.log(response);
       const data = await response.json();
       courseSelected = true;
@@ -68,15 +61,7 @@
 
   async function fetchCoursePartOptions() {
     try {
-      const response = await fetch(
-        "https://5f81-102-157-246-13.ngrok-free.app/api/course-parts/",
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-            // You can add more headers here if needed
-          },
-        }
-      );
+      const response = await fetch("http://localhost:8000/api/course-parts/");
       const data = await response.json();
       return data;
     } catch (error) {

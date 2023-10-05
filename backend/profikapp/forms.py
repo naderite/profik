@@ -14,8 +14,8 @@ class ExerciseForm(forms.Form):
     ]
     LENGTH_CHOICES = [
         (0, "court"),  # Short length
-        (1, "long"),  # Long length
-        (2, "probleme"),  # Problem length
+        (1, "moyen"),  # Long length
+        (2, "long"),  # Problem length
     ]
 
     DIFFICULTY_CHOICES = [
@@ -23,14 +23,12 @@ class ExerciseForm(forms.Form):
         (1, "moyen"),  # Medium difficulty
         (2, "difficile"),  # Difficult difficulty
     ]
-    REASONING_CHOICES = [
-        (0, "normal"),
-        (1, "récurrence"),
-        (2, "absurd"),
-    ]
+
     head = forms.CharField(widget=forms.Textarea, label="Tête de l'exercice")
-    level = forms.ChoiceField(
-        label="Niveau de l'exercice", choices=LEVEL_CHOICES
+    level = forms.MultipleChoiceField(
+        label="Niveau de l'exercice",
+        choices=LEVEL_CHOICES,
+        widget=forms.CheckboxSelectMultiple,  # Use CheckboxSelectMultiple widget for multi-choice
     )  # Exercise level
     course = forms.ModelChoiceField(
         queryset=Course.objects.all(), label="Cours de l'exercice"
@@ -41,9 +39,6 @@ class ExerciseForm(forms.Form):
     length = forms.ChoiceField(
         choices=LENGTH_CHOICES, label="Longueur de l'exercice"
     )  # Exercise length
-    reasoning = forms.ChoiceField(
-        choices=REASONING_CHOICES, label="raisonnement de l'exercice"
-    )  # Exercise reasoning
     difficulty = forms.ChoiceField(
         choices=DIFFICULTY_CHOICES, label="Difficulté de l'exercice"
     )  # Exercise difficulty
@@ -80,8 +75,7 @@ class CorrectionForm(forms.Form):
 
     COMMENT_CHOICES = [
         (0, "minimum"),  # Minimum comments
-        (1, "moyen"),  # Medium comments
-        (2, "très explicatif"),  # Highly explanatory comments
+        (1, "explicatif"),  # Highly explanatory comments
     ]
     text = forms.CharField(
         widget=forms.Textarea, label="Texte de la correction"

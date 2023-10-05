@@ -33,7 +33,6 @@ class ExerciseSerializer(serializers.ModelSerializer):
             "level",
             "course_part",
             "length",
-            "reasoning",
             "difficulty",
             "head",
         ]

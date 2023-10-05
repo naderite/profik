@@ -59,9 +59,37 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "main_formatter": {
+            "format": "{asctime} - {levelname} - {module} - {funcName} - {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "main_formatter",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "info.log",
+            "formatter": "main_formatter",
+        },
+    },
+    "loggers": {
+        "main": {
+            "handlers": ["file", "console"],
+            "propagate": True,
+            "level": "INFO",
+        },
+    },
+}
+
 ROOT_URLCONF = "profik.urls"
 
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
