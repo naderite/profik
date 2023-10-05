@@ -93,15 +93,13 @@ def add_correction(request, question_id):
     if not current_index:
         session["current_index"] = 0
         session.save()
-    if current_index >= 3:
+    if current_index >= 2:
         current_index = 0
         session["current_index"] = current_index
-    print(current_index)
     if request.method == "POST":
         form = CorrectionForm(request.POST)
-        print(current_index)
         if form.is_valid():
-            if current_index >= 2:
+            if current_index >= 1:
                 # Update current_index in the session
                 current_index = 0
                 session["current_index"] = current_index

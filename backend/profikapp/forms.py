@@ -14,8 +14,8 @@ class ExerciseForm(forms.Form):
     ]
     LENGTH_CHOICES = [
         (0, "court"),  # Short length
-        (1, "long"),  # Long length
-        (2, "probleme"),  # Problem length
+        (1, "moyen"),  # Long length
+        (2, "long"),  # Problem length
     ]
 
     DIFFICULTY_CHOICES = [
@@ -75,8 +75,7 @@ class CorrectionForm(forms.Form):
 
     COMMENT_CHOICES = [
         (0, "minimum"),  # Minimum comments
-        (1, "moyen"),  # Medium comments
-        (2, "très explicatif"),  # Highly explanatory comments
+        (1, "explicatif"),  # Highly explanatory comments
     ]
     text = forms.CharField(
         widget=forms.Textarea, label="Texte de la correction"

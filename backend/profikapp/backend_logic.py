@@ -36,7 +36,6 @@ def _find_correction(
     corrections = Correction.objects.filter(
         has_theorem=correction_theorem,
         course=correction_course,
-        has_methods=correction_has_methods,
         comments=correction_comments,
         question=question,
     )
@@ -93,15 +92,15 @@ def _extract_exercise_data_from_form(form):
     """
     exercise_head = form.cleaned_data["head"]
     exercise_level = form.cleaned_data["level"]
+    exercise_course = form.cleaned_data["course"]
     exercise_course_part = form.cleaned_data["course_part"]
     exercise_length = form.cleaned_data["length"]
-    exercise_reasoning = form.cleaned_data["reasoning"]
     exercise_difficulty = form.cleaned_data["difficulty"]
     return (
         exercise_level,
+        exercise_course,
         exercise_course_part,
         exercise_length,
-        exercise_reasoning,
         exercise_difficulty,
         exercise_head,
     )
@@ -114,9 +113,9 @@ def _fill_exercise_data(exercise, exercise_data):
     Modifies the exercise instance with the provided exercise data.
     """
     exercise.level = exercise_data[0]
-    exercise.course_part = exercise_data[1]
-    exercise.length = exercise_data[2]
-    exercise.reasoning = exercise_data[3]
+    exercise.course = exercise_data[1]
+    exercise.course_part = exercise_data[2]
+    exercise.length = exercise_data[3]
     exercise.difficulty = exercise_data[4]
     exercise.head = exercise_data[5]
 

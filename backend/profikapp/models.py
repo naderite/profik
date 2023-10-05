@@ -46,8 +46,7 @@ class Question(models.Model):
 class Correction(models.Model):
     COMMENT_CHOICES = [
         (0, "minimum"),
-        (1, "moyen"),
-        (2, "trés explicatif"),
+        (1, "explicatif"),
     ]
     comments = models.PositiveSmallIntegerField(choices=COMMENT_CHOICES, default=0)
     theorem_text = models.TextField(default="default_value_here")

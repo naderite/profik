@@ -96,7 +96,6 @@ class ExerciseAPIView(APIView):
     def get(self, request):
         exercises = Exercise.objects.all()
         serializer = ExerciseSerializer(exercises, many=True)
-        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request):
@@ -109,7 +108,13 @@ class ExerciseAPIView(APIView):
                 exercise_data = self.extract_exercise_data(exercise)
                 # Return the exercise data as JSON response
                 exercises_list.append(exercise_data)
+                # log exercises
+                logging_message = (
+                    f"exercise id: {exercise.id};\n exercise data: {exercise_data}"
+                )
+                logger.info(logging_message)
             return JsonResponse({"exercises": exercises_list})
+
         else:
             # Handle the case when no exercises are found
             return JsonResponse({"error": "No exercises found"})
@@ -124,13 +129,19 @@ class ExerciseAPIView(APIView):
         for question in questions:
             if correction := Correction.objects.filter(
                 question=question,
-                comments=2,
+                comments=1,
             ).first():
                 correction_data = CorrectionSerializer(correction).data
+                logging_message = f"correction id: {correction.id};\n correction data: {correction_data}"
+                logger.info(logging_message)
             else:
                 correction_data = None
 
             question_data = QuestionSerializer(question).data
+            logging_message = (
+                f"question id: {question.id};\n question data: {question_data}"
+            )
+            logger.info(logging_message)
             question_data["correction"] = correction_data
             exercise_data["questions"].append(question_data)
 
